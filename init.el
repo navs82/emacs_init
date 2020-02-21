@@ -13,7 +13,8 @@
 ;;(setq view-read-only t)
 ;; toggle view mode
 (add-hook 'find-file-hook (lambda () (setq view-mode t))) ;;(setq buffer-read-only t)))
-(define-key ctl-x-map "\C-q" 'view-mode)
+;;(define-key ctl-x-map "\C-q" 'view-mode)
+(define-key ctl-x-map "\C-q" 'read-only-mode)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Configuration/Customization:
 ;; Defines global variables that are later used to customize and set
@@ -333,9 +334,10 @@
          ("C-c k" . counsel-ag)
          ("C-c f" . counsel-rg)
          ("C-x l" . counsel-locate)
+         ("C-c i" . counsel-imenu)
          :map minibuffer-local-map
          ("C-r" . counsel-minibuffer-add)
-         ("C-c i" . counsel-imenu)
+         ("C-c i" . counsel-imenu) ;; don't know how to get here, and what is map minibuffer-local-map for
          )
   :config
   (if (executable-find "rg")
@@ -348,6 +350,8 @@
     (warn "\nWARNING: Could not find the ripgrep executable. It "
           "is recommended you install ripgrep.")
     )
+
+  (global-set-key (kbd "<f7>") 'counsel-imenu)
   )
 
 ;; Use universal ctags to build the tags database for the project.
@@ -456,6 +460,12 @@
   (window-numbering-mode t)
   )
 
+;;(use-package transpose-frame
+;;  :defer t
+;;  :init
+;;  (leader-def-key "wt" 'transpose-frame))
+
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; wgrep
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -517,7 +527,7 @@
 
 ;; Reasonable splitting on wide screens
 (setq split-height-threshold 30)
-(setq split-width-threshold 160)
+(setq split-width-threshold  160)
 ;; Load rtags and start the cmake-ide-setup process
 (use-package rtags
     :ensure t
@@ -1040,7 +1050,7 @@
     (flyspell-goto-next-error)
     (ispell-word))
 
-  (global-set-key (kbd "<f7>") 'flyspell-buffer)
+;;  (global-set-key (kbd "<f7>") 'flyspell-buffer)
   (global-set-key (kbd "<f8>") 'flyspell-correct-previous)
   (global-set-key (kbd "<f9>") 'flyspell-correct-previous)
 
@@ -1441,11 +1451,6 @@
   ;;             purpose-display-pop-up-frame))
 )
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;ediff custom face;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(custom-set-faces
-  '(ediff-current-diff-A ((t (:foreground "White" :background "brown")))))
-(custom-set-faces
- '(ediff-current-diff-B ((t (:foreground "White" :background "brown")))))
 
 (provide '.emacs)
 ;;; .emacs ends here
