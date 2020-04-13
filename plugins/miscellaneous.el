@@ -65,7 +65,7 @@
    (paste-to-mark arg)
    )
 
-global-set-key (kbd "C-c P")         (quote copy-paragraph))
+(global-set-key (kbd "C-c P")         (quote copy-paragraph))
 
 ;;Copy String
 (defun beginning-of-string (&optional arg)
@@ -101,4 +101,4 @@ global-set-key (kbd "C-c P")         (quote copy-paragraph))
   (copy-thing 'beginning-of-parenthesis 'end-of-parenthesis arg)
   (paste-to-mark arg)
   )
-(global-set-key (kbd "C-c a")         (quote thing-copy-parenthesis-to-mark))
+global-set-key (kbd "C-c a")         (quote thing-copy-parenthesis-to-mark))
