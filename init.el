@@ -82,7 +82,6 @@
 ;; Extra plugins and config files are stored here
 (add-to-list 'load-path (expand-file-name "~/.emacs.d/plugins"))
 
-<<<<<<< HEAD
 ;;Load other files that is needed
 ;;(load  "miscellaneous")
 ;; Load lsp
