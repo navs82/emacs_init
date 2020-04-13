@@ -82,11 +82,14 @@
 ;; Extra plugins and config files are stored here
 (add-to-list 'load-path (expand-file-name "~/.emacs.d/plugins"))
 
+<<<<<<< HEAD
 ;;Load other files that is needed
 ;;(load  "miscellaneous")
 ;; Load lsp
 ;;(load "clangd")
 ;;(load "rtags")
+;;Load other files that is needed
+(load  "miscellaneous")
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Start emacs server if not already running
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
