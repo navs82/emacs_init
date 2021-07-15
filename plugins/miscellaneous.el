@@ -65,7 +65,7 @@
    (paste-to-mark arg)
    )
 
-global-set-key (kbd "C-c P")         (quote copy-paragraph))
+(global-set-key (kbd "C-c P")         (quote copy-paragraph))
 
 ;;Copy String
 (defun beginning-of-string (&optional arg)

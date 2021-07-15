@@ -89,6 +89,7 @@
 ;;(load "rtags")
 ;;Load other files that is needed
 (load  "miscellaneous")
+(load "org-mode")
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Start emacs server if not already running
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -146,7 +147,7 @@
 ;; Indent after a newline, if required by syntax of language
 (global-set-key (kbd "C-m") 'newline-and-indent)
 ;; Load the compile ocmmand
-(global-set-key (kbd "C-c C-c") 'compile)
+;;(global-set-key (kbd "C-c C-c") 'compile)
 ;; Undo, basically C-x u
 (global-set-key (kbd "C-/") 'undo)
 ;; Find file in project
@@ -962,7 +963,8 @@
 (use-package string-inflection
   :ensure t
   :defer t
-  :bind (("C-c c i" . string-inflection-cycle)
+  :bind (:map c++-mode-map
+         ("C-c c i" . string-inflection-cycle)
          ("C-c c l" . string-inflection-lower-camelcase)
          ("C-c c c" . string-inflection-camelcase)
          ("C-c c s" . string-inflection-underscore)
@@ -977,7 +979,8 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (use-package multiple-cursors
   :ensure t
-  :bind (("M-n" . mc/mark-next-like-this)
+  :bind (:map c++-mode-map
+         ("M-n" . mc/mark-next-like-this)
          ("M-p" . mc/mark-previous-like-this)
          ("C-c a" . mc/mark-all-like-this)
          ("C-c e" . mc/edit-lines))
@@ -1501,6 +1504,7 @@
  '(hl-paren-colors '("#2aa198" "#b58900" "#268bd2" "#6c71c4" "#859900"))
  '(line-number-mode nil)
  '(magit-diff-use-overlays nil)
+ '(org-agenda-files '("~/Documents/Personal/gtd/gtd.org"))
  '(package-selected-packages
    '(rtags eglot click-mode cmake-font-lock lsp-java lsp-clangd hierarchy call-graph transpose-frame window-purpose lsp-ui company-lsp lsp-mode org-mime solarized-theme doom-themes monokai-theme zenburn-theme 0blayout powerline zzz-to-char yasnippet-snippets yapfify yaml-mode writegood-mode window-numbering which-key wgrep web-mode vlf use-package string-inflection sourcerer-theme realgud rainbow-delimiters prognth origami multiple-cursors modern-cpp-font-lock markdown-mode magit-gerrit json-mode hungry-delete google-c-style git-gutter flyspell-correct-ivy flycheck-pyflakes elpy edit-server cuda-mode counsel-etags company-jedi cmake-mode clang-format beacon autopair auto-package-update auctex))
  '(pos-tip-background-color "#FFFACE")
