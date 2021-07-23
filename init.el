@@ -990,7 +990,6 @@
 ;; Org-Mode
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq org-log-done 'time
-      org-todo-keywords '((sequence "TODO" "INPROGRESS" "DONE"))
       org-todo-keyword-faces '(("INPROGRESS" . (:foreground "blue" :weight bold))))
 (use-package writegood-mode
   :ensure t
@@ -1504,7 +1503,6 @@
  '(hl-paren-colors '("#2aa198" "#b58900" "#268bd2" "#6c71c4" "#859900"))
  '(line-number-mode nil)
  '(magit-diff-use-overlays nil)
- '(org-agenda-files '("~/Documents/Personal/gtd/gtd.org"))
  '(package-selected-packages
    '(rtags eglot click-mode cmake-font-lock lsp-java lsp-clangd hierarchy call-graph transpose-frame window-purpose lsp-ui company-lsp lsp-mode org-mime solarized-theme doom-themes monokai-theme zenburn-theme 0blayout powerline zzz-to-char yasnippet-snippets yapfify yaml-mode writegood-mode window-numbering which-key wgrep web-mode vlf use-package string-inflection sourcerer-theme realgud rainbow-delimiters prognth origami multiple-cursors modern-cpp-font-lock markdown-mode magit-gerrit json-mode hungry-delete google-c-style git-gutter flyspell-correct-ivy flycheck-pyflakes elpy edit-server cuda-mode counsel-etags company-jedi cmake-mode clang-format beacon autopair auto-package-update auctex))
  '(pos-tip-background-color "#FFFACE")
