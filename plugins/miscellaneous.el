@@ -51,11 +51,11 @@
   "Save current line into Kill-Ring without mark the line "
   (interactive "P")
   (copy-thing 'beginning-of-line 'end-of-line arg)
-  (paste-to-mark arg)
+  ;;(paste-to-mark arg)
   )
 
 ;; Key Binding
-(global-set-key (kbd "C-c l")         (quote copy-line))
+(global-set-key (kbd "C-c L")         (quote copy-line))
 
 ;;Copy Paragraph
  (defun copy-paragraph (&optional arg)

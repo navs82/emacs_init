@@ -38,6 +38,9 @@
         ("h" "At home" tags-todo "@home"
          ((org-agenda-overriding-header "Home")
           (org-agenda-skip-function #'my-org-agenda-skip-all-siblings-but-first)))
+        ("p" "Projects"
+         ((org-agenda-overriding-header "Projects")
+          (org-agenda-skip-function #'my-org-agenda-skip-all-but-project-heading)))
         ;; filter based on priority
         ("p" . "Priorities")
         ("pa" "A items" tags-todo "+PRIORITY=\"A\"")
@@ -49,10 +52,13 @@
 (defun my-org-agenda-skip-all-siblings-but-first ()
   "Skip all but the first non-done entry."
   (let (should-skip-entry)
-    (unless (org-current-is-todo)
+    ;;(unless (and (org-current-is-todo) (org-goto-first-child)) ;; if the current item does not have any childeren then don't skip this current item
+    (unless (and (org-current-is-todo) (string= "Projects" (org-get-category)))
       (setq should-skip-entry t))
+    (if (string= "Tasks" (org-get-category))
+      (setq should-skip-entry nil))
     (save-excursion
-      (while (and (not should-skip-entry) (org-goto-sibling t))
+      (while( and (and (not should-skip-entry) (org-goto-sibling t)) (string= "Projects" (org-get-category)))
         (when (org-current-is-todo)
           (setq should-skip-entry t))))
     (when should-skip-entry
@@ -61,3 +67,14 @@
 
 (defun org-current-is-todo ()
   (string= "TODO" (org-get-todo-state)))
+
+(defun my-org-has-child-p ()
+  (interactive)
+  (save-excursion
+    (org-goto-first-child)))
+
+(defun my-org-agenda-skip-all-but-project-heading ()
+  (let (should-skip-entry)
+    (unless(my-org-has-child-p))
+      (setq should-skip-entry t))
+  )
