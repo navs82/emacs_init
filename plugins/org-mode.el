@@ -38,6 +38,9 @@
         ("h" "At home" tags-todo "@home"
          ((org-agenda-overriding-header "Home")
           (org-agenda-skip-function #'my-org-agenda-skip-all-siblings-but-first)))
+        ("t" "Talking" tags-todo "@agenda"
+         ((org-agenda-overriding-header "Agenda")
+          (org-agenda-skip-function #'my-org-agenda-skip-all-siblings-but-first)))
         ("p" "Projects"
          ((org-agenda-overriding-header "Projects")
           (org-agenda-skip-function #'my-org-agenda-skip-all-but-project-heading)))
