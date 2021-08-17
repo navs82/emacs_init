@@ -39,8 +39,9 @@
 ;; Set packages to install
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq package-archives '(("melpa-stable" . "https://stable.melpa.org/packages/")
-                         ("melpa" . "https://melpa.milkbox.net/packages/")
-                         ("gnu" . "http://elpa.gnu.org/packages/")))
+                         ("melpa" . "https://melpa.org/packages/")
+                         ("elpa" . "http://elpa.gnu.org/packages/")))
+
 ;; Disable package initialize after us.  We either initialize it
 ;; anyway in case of interpreted .emacs, or we don't want slow
 ;; initizlization in case of byte-compiled .emacs.elc.
