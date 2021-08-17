@@ -93,6 +93,7 @@
 ;;Load other files that is needed
 (load  "miscellaneous")
 (load "org-mode")
+(load "python-config")
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Start emacs server if not already running
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -910,16 +911,6 @@
   ;;  '(add-to-list
   ;;    'company-backends 'company-irony))
 )
-;; Setup loading company-jedi for python completion
-;; This requines running jedi:install-server the first time
-(use-package company-jedi
-  :ensure t
-  :after python
-  :init
-  (defun my/python-mode-hook ()
-    (add-to-list 'company-backends 'company-jedi))
-  (add-hook 'python-mode-hook 'my/python-mode-hook)
-  )
 
 (use-package click-mode
   :ensure t
@@ -1463,7 +1454,71 @@
   ;;             purpose-display-reuse-window-buffer
   ;;             purpose-display-reuse-window-purpose
   ;;             purpose-display-pop-up-frame))
-)
+  )
+
+;;;========================================
+;;; (E)Lisp development
+;;;========================================
+
+(use-package buttercup
+  :ensure t
+  :defer t)
+
+(use-package package-lint
+  :ensure t
+  :defer t)
+
+(use-package elisp-lint
+  :ensure t
+  :defer t)
+
+;; Better shell
+
+(use-package vterm
+  :ensure t
+  :defer t
+  :bind ("C-$" . vterm))
+
+;;;========================================
+;;; Common Lisp
+;;;========================================
+
+(use-package sly
+  :ensure t
+  :defer t
+  :custom
+  (inferior-lisp-program "sbcl"))
+
+(use-package paredit
+  :ensure t
+  :defer t
+  :hook ((emacs-lisp-mode-hook lisp-mode-hook racket-mode-hook) . paredit-mode))
+
+(use-package rainbow-delimiters
+  :ensure t
+  :defer t
+  :hook (lisp-mode-hook . rainbow-delimiters-mode))
+
+;; PATH variable is not svailable when started from spotlist, ref:https://www.emacswiki.org/emacs/ExecPath
+(defun set-exec-path-from-shell-PATH ()
+  "Set up Emacs' `exec-path' and PATH environment variable to match that used by the user's shell.
+
+This is particularly useful under Mac OSX, where GUI apps are not started from a shell."
+  (interactive)
+  (let ((path-from-shell (replace-regexp-in-string "[ \t\n]*$" "" (shell-command-to-string "$SHELL --login -i -c 'echo $PATH'"))))
+    (setenv "PATH" path-from-shell)
+    (setq exec-path (split-string path-from-shell path-separator))))
+
+(set-exec-path-from-shell-PATH)
+
+
+(let ((path (shell-command-to-string ". ~/.bashrc; echo -n $PATH")))
+  (setenv "PATH" path)
+  (setq exec-path
+        (append
+         (split-string-and-unquote path ":")
+         exec-path)))
+
 
 
 (provide '.emacs)
@@ -1502,7 +1557,7 @@
  '(org-agenda-files
    '("~/local_drive/personal/gtd/gtd.org" "~/local_drive/personal/gtd/inbox.org" "~/local_drive/personal/gtd/tickler.org"))
  '(package-selected-packages
-   '(org-roam rtags eglot click-mode cmake-font-lock lsp-java lsp-clangd hierarchy call-graph transpose-frame window-purpose lsp-ui company-lsp lsp-mode org-mime solarized-theme doom-themes monokai-theme zenburn-theme 0blayout powerline zzz-to-char yasnippet-snippets yapfify yaml-mode writegood-mode window-numbering which-key wgrep web-mode vlf use-package string-inflection sourcerer-theme realgud rainbow-delimiters prognth origami multiple-cursors modern-cpp-font-lock markdown-mode magit-gerrit json-mode hungry-delete google-c-style git-gutter flyspell-correct-ivy flycheck-pyflakes elpy edit-server cuda-mode counsel-etags company-jedi cmake-mode clang-format beacon autopair auto-package-update auctex))
+   '(paredit sly vterm elisp-lint package-lint buttercup lsp-pyright hide-mode-line dap-mode treemacs org-roam rtags eglot click-mode cmake-font-lock lsp-java lsp-clangd hierarchy call-graph transpose-frame window-purpose lsp-ui company-lsp lsp-mode org-mime solarized-theme doom-themes monokai-theme zenburn-theme 0blayout powerline zzz-to-char yasnippet-snippets yapfify yaml-mode writegood-mode window-numbering which-key wgrep web-mode vlf use-package string-inflection sourcerer-theme realgud rainbow-delimiters prognth origami multiple-cursors modern-cpp-font-lock markdown-mode magit-gerrit json-mode hungry-delete google-c-style git-gutter flyspell-correct-ivy flycheck-pyflakes elpy edit-server cuda-mode counsel-etags company-jedi cmake-mode clang-format beacon autopair auto-package-update auctex))
  '(pos-tip-background-color "#FFFACE")
  '(pos-tip-foreground-color "#272822")
  '(purpose-mode nil)
