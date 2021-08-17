@@ -994,6 +994,8 @@
     ;; Silence missing function warnings
     (declare-function writegood-mode "writegood-mode.el"))
   (add-hook 'org-mode-hook #'writegood-mode)
+  ;;ref https://stackoverflow.com/questions/36359943/how-i-can-change-column-view-org-mode-agenda-default-settings
+  (setq org-agenda-overriding-columns-format "%TODO %PRIORITY  %150ITEM 100%TAGS")
   )
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
