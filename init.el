@@ -1003,8 +1003,10 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (use-package org-roam
       :ensure t
+      :init
+      (setq org-roam-v2-ack t)
       :custom
-      (org-roam-directory (file-truename "/path/to/org-files/"))
+      (org-roam-directory "~/local_drive/personal/OrgNotes")
       :bind (("C-c n l" . org-roam-buffer-toggle)
              ("C-c n f" . org-roam-node-find)
              ("C-c n g" . org-roam-graph)
@@ -1584,7 +1586,6 @@ This is particularly useful under Mac OSX, where GUI apps are not started from a
  '(magit-diff-use-overlays nil)
  '(org-agenda-files
    '("~/local_drive/personal/gtd/gtd.org" "~/local_drive/personal/gtd/inbox.org" "~/local_drive/personal/gtd/tickler.org"))
- '(org-roam-directory "/path/to/org-files/" t)
  '(package-selected-packages
    '(pdf-tools paredit sly vterm elisp-lint package-lint buttercup lsp-pyright hide-mode-line dap-mode treemacs org-roam rtags eglot click-mode cmake-font-lock lsp-java lsp-clangd hierarchy call-graph transpose-frame window-purpose lsp-ui company-lsp lsp-mode org-mime solarized-theme doom-themes monokai-theme zenburn-theme 0blayout powerline zzz-to-char yasnippet-snippets yapfify yaml-mode writegood-mode window-numbering which-key wgrep web-mode vlf use-package string-inflection sourcerer-theme realgud rainbow-delimiters prognth origami multiple-cursors modern-cpp-font-lock markdown-mode magit-gerrit json-mode hungry-delete google-c-style git-gutter flyspell-correct-ivy flycheck-pyflakes elpy edit-server cuda-mode counsel-etags company-jedi cmake-mode clang-format beacon autopair auto-package-update auctex))
  '(pos-tip-background-color "#FFFACE")
