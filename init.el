@@ -1001,8 +1001,21 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Org-Roam V2
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;(use-package org-roam
-;;  :ensure t)
+(use-package org-roam
+      :ensure t
+      :custom
+      (org-roam-directory (file-truename "/path/to/org-files/"))
+      :bind (("C-c n l" . org-roam-buffer-toggle)
+             ("C-c n f" . org-roam-node-find)
+             ("C-c n g" . org-roam-graph)
+             ("C-c n i" . org-roam-node-insert)
+             ("C-c n c" . org-roam-capture)
+             ;; Dailies
+             ("C-c n j" . org-roam-dailies-capture-today))
+      :config
+      (org-roam-db-autosync-mode)
+      ;; If using org-roam-protocol
+      (require 'org-roam-protocol))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; vlf - handle open very large files
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -1571,6 +1584,7 @@ This is particularly useful under Mac OSX, where GUI apps are not started from a
  '(magit-diff-use-overlays nil)
  '(org-agenda-files
    '("~/local_drive/personal/gtd/gtd.org" "~/local_drive/personal/gtd/inbox.org" "~/local_drive/personal/gtd/tickler.org"))
+ '(org-roam-directory "/path/to/org-files/" t)
  '(package-selected-packages
    '(pdf-tools paredit sly vterm elisp-lint package-lint buttercup lsp-pyright hide-mode-line dap-mode treemacs org-roam rtags eglot click-mode cmake-font-lock lsp-java lsp-clangd hierarchy call-graph transpose-frame window-purpose lsp-ui company-lsp lsp-mode org-mime solarized-theme doom-themes monokai-theme zenburn-theme 0blayout powerline zzz-to-char yasnippet-snippets yapfify yaml-mode writegood-mode window-numbering which-key wgrep web-mode vlf use-package string-inflection sourcerer-theme realgud rainbow-delimiters prognth origami multiple-cursors modern-cpp-font-lock markdown-mode magit-gerrit json-mode hungry-delete google-c-style git-gutter flyspell-correct-ivy flycheck-pyflakes elpy edit-server cuda-mode counsel-etags company-jedi cmake-mode clang-format beacon autopair auto-package-update auctex))
  '(pos-tip-background-color "#FFFACE")
@@ -1610,4 +1624,4 @@ This is particularly useful under Mac OSX, where GUI apps are not started from a
  '(ivy-minibuffer-match-face-2 ((t (:background "#314f30" :weight bold))))
  '(ivy-minibuffer-match-face-3 ((t (:background "#48225b" :weight bold))))
  '(ivy-minibuffer-match-face-4 ((t (:background "#680a0a" :weight bold))))
- '(which-func ((t (:foreground "blue")))))
+ '(which-func ((t (:foreground "#8fb28f")))))
