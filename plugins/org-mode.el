@@ -81,3 +81,9 @@
     (unless(my-org-has-child-p))
       (setq should-skip-entry t))
   )
+
+(setq org-agenda-prefix-format
+      '((agenda . " %i %-12:c%?-12t% s")
+        (todo   . " %i %-12:c")
+        (tags   . " %i %-12:c")
+        (search . " %i %-12:c")))
