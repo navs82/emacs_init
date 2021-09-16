@@ -12,9 +12,9 @@
 (setq mouse-sel-mode t)
 ;;(setq view-read-only t)
 ;; toggle view mode
-(add-hook 'find-file-hook (lambda ()
-                            (if (eq major-mode 'c++-mode)
-                            (setq buffer-read-only t)))) ;;(setq buffer-read-only t)))
+;;(add-hook 'find-file-hook (lambda ()
+;;                            (if (eq major-mode 'c++-mode)
+;;                            (setq buffer-read-only t)))) ;;(setq buffer-read-only t)))
 ;;(define-key ctl-x-map "\C-q" 'view-mode)
 (define-key ctl-x-map "\C-q" 'read-only-mode)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -243,8 +243,7 @@
 (global-set-key (kbd "C-c M-w") 'my-copy-to-xclipboard)
 (global-set-key (kbd "C-c C-y") 'my-paste-from-xclipboard)
 
-;;Change the selected buffer color(set-face-attribute 'region nil :background "#666")
-(set-face-attribute 'region nil :background "#666");;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; async - library for async/thread processing
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -322,7 +321,10 @@
   (ivy-mode t)
   (setq ivy-use-virtual-buffers t)
   (setq enable-recursive-minibuffers t)
-  (setq ivy-wrap t)
+  (setq ivy-wrap nil)
+  (add-hook 'org-mode-hook #'flyspell-mode)
+;;            (lambda() (ivy-wrap -1 message "org-mode-hook-called")))
+  (add-hook 'c++-mode-hook (lambda()(ivy-wrap t)))
   (global-set-key (kbd "C-c C-r") 'ivy-resume)
   ;; Show #/total when scrolling buffers
   (setq ivy-count-format "%d/%d ")
@@ -584,7 +586,7 @@
     (setq rtags-other-window-function #'(lambda () (other-window -1)))
     (setq rtags-results-buffer-other-window t)
     ;; open files in view mode only
-    (add-hook 'find-file-hook (lambda () (setq view-mode t))) ;;(setq buffer-read-only t)))
+    ;;(add-hook 'find-file-hook (lambda () (setq view-mode t))) ;;(setq buffer-read-only t)))
     (setq rtags-multiple-targets t) ;; for multiple target
     (setq rtags-use-helm t)
     ;;(add-hook 'after-save-hook (lambda() (setq view-mode t))) ;; make is only read buffer
@@ -1016,6 +1018,17 @@
              ("C-c n j" . org-roam-dailies-capture-today))
       :config
       (org-roam-db-autosync-mode)
+      ;;BacklinksView (preview of) nodes that link to this node
+      (setq org-roam-mode-section-functions
+      (list #'org-roam-backlinks-section
+            #'org-roam-reflinks-section
+            ;; #'org-roam-unlinked-references-section
+            ))
+      (setq org-roam-dailies-directory "daily/")
+      ;;new daily template
+      ;;(setq org-roam-dailies-capture-templates
+      ;;      '(("d" "daily" entry #'org-roam-capture--get-point
+      ;;         "* %?\n")))
       ;; If using org-roam-protocol
       (require 'org-roam-protocol))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -1188,7 +1201,10 @@
   :ensure t
   :after yasnippet
   :config
-  (yas-reload-all))
+  (yas-reload-all)
+  (setq yas-snippet-dirs (expand-file-name "~/local_drive/personal/snippets/org-mode/"))
+  (setq yas-snippet-dirs (append yas-snippet-dirs
+                         '("~/Downloads/interesting-snippets"))))
 ;; Apparently the company-yasnippet backend shadows all backends that
 ;; come after it. To work around this we assign yasnippet to a different
 ;; keybind since actual source completion is vital.
@@ -1270,6 +1286,8 @@
 (set-face-attribute 'mode-line nil  :height my-font-size)
 ;; Set the header bar font
 (set-face-attribute 'header-line nil  :height my-font-size)
+;;Change the selected buffer color(set-face-attribute 'region nil :background "#666")
+(set-face-attribute 'region nil :background "#8b0000" :foreground "#ffffff")
 ;; Set default window size and position
 (setq default-frame-alist
       '((top . 0) (left . 0) ;; position
@@ -1529,7 +1547,7 @@ This is particularly useful under Mac OSX, where GUI apps are not started from a
 (set-exec-path-from-shell-PATH)
 
 
-(let ((path (shell-command-to-string ". ~/.bashrc; echo -n $PATH")))
+(let ((path (shell-command-to-string ". ~/.zshrc;echo -n $PATH")))
   (setenv "PATH" path)
   (setq exec-path
         (append
@@ -1550,6 +1568,48 @@ This is particularly useful under Mac OSX, where GUI apps are not started from a
   (setq-default pdf-view-display-size 'fit-page)
   (setq pdf-annot-activate-created-annotations t))
 
+
+(use-package graphviz-dot-mode
+  :ensure t
+  :config
+  (setq graphviz-dot-indent-width 4))
+
+(use-package company-graphviz-dot
+  )
+
+;;; rfc reader
+(use-package rfc-mode
+  :ensure t
+  :config
+  (setq rfc-mode-directory (expand-file-name "~/local_drive/office_work/rfc/")))
+
+;; hunspell dictinary; Took from https://www.reddit.com/r/emacs/comments/dgj0ae/tutorial_spellchecking_with_hunspell_170_for/
+(setq ispell-program-name "hunspell")
+(setq ispell-hunspell-dict-paths-alist
+'(("en_US" (expand-file-name "~/local_drive/references/d/dictionary/"))))
+(setq ispell-local-dictionary "en_US")
+(setq ispell-local-dictionary-alist '(("en_US" "[[:alpha:]]" "[^[:alpha:]]" "[']" nil ("-d" "en_US") nil utf-8)))
+
+
+(when (executable-find "hunspell")
+  (setq-default ispell-program-name "hunspell")
+  (setq ispell-really-hunspell t))
+;;Set custom file to store custom variable
+
+(setq custom-file (concat user-emacs-directory "custom.el"))
+;;(load custom-file)
+
+(use-package tree-sitter-langs
+  :ensure t)
+
+;; tree-sitter
+(use-package tree-sitter
+  :ensure t
+  :config
+  (require 'tree-sitter-langs)
+  (global-tree-sitter-mode)
+  (add-hook 'tree-sitter-after-on-hook #'tree-sitter-hl-mode))
+
 (provide '.emacs)
 ;;; .emacs ends here
 (custom-set-variables
@@ -1562,7 +1622,7 @@ This is particularly useful under Mac OSX, where GUI apps are not started from a
  '(cua-normal-cursor-color "#839496")
  '(cua-overwrite-cursor-color "#b58900")
  '(cua-read-only-cursor-color "#859900")
- '(custom-enabled-themes '(wombat))
+ ;;'(custom-enabled-themes '(wombat))
  '(custom-safe-themes
    '("73a13a70fd111a6cd47f3d4be2260b1e4b717dbf635a9caee6442c949fad41cd" "ebd9bea137cafba0138f5a6996aa6851c4ee8263844c75a57798faacbcf8e3e4" "9b1c580339183a8661a84f5864a6c363260c80136bd20ac9f00d7e1d662e936a" "3eb93cd9a0da0f3e86b5d932ac0e3b5f0f50de7a0b805d4eb1f67782e9eb67a4" "d677ef584c6dfc0697901a44b885cc18e206f05114c8a3b7fde674fce6180879" "8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" "251348dcb797a6ea63bbfe3be4951728e085ac08eee83def071e4d2e3211acc3" "b181ea0cc32303da7f9227361bb051bbb6c3105bb4f386ca22a06db319b08882" "bd7b7c5df1174796deefce5debc2d976b264585d51852c962362be83932873d9" "0cd56f8cd78d12fc6ead32915e1c4963ba2039890700458c13e12038ec40f6f5" "d057f0430ba54f813a5d60c1d18f28cf97d271fd35a36be478e20924ea9451bd" default))
  '(git-gutter:update-interval 5)
@@ -1581,13 +1641,12 @@ This is particularly useful under Mac OSX, where GUI apps are not started from a
  '(hl-fg-colors
    '("#002b36" "#002b36" "#002b36" "#002b36" "#002b36" "#002b36" "#002b36" "#002b36"))
  '(hl-paren-colors '("#2aa198" "#b58900" "#268bd2" "#6c71c4" "#859900"))
- '(inferior-lisp-program "sbcl" t)
  '(line-number-mode nil)
  '(magit-diff-use-overlays nil)
  '(org-agenda-files
    '("~/local_drive/personal/gtd/gtd.org" "~/local_drive/personal/gtd/inbox.org" "~/local_drive/personal/gtd/tickler.org"))
  '(package-selected-packages
-   '(pdf-tools paredit sly vterm elisp-lint package-lint buttercup lsp-pyright hide-mode-line dap-mode treemacs org-roam rtags eglot click-mode cmake-font-lock lsp-java lsp-clangd hierarchy call-graph transpose-frame window-purpose lsp-ui company-lsp lsp-mode org-mime solarized-theme doom-themes monokai-theme zenburn-theme 0blayout powerline zzz-to-char yasnippet-snippets yapfify yaml-mode writegood-mode window-numbering which-key wgrep web-mode vlf use-package string-inflection sourcerer-theme realgud rainbow-delimiters prognth origami multiple-cursors modern-cpp-font-lock markdown-mode magit-gerrit json-mode hungry-delete google-c-style git-gutter flyspell-correct-ivy flycheck-pyflakes elpy edit-server cuda-mode counsel-etags company-jedi cmake-mode clang-format beacon autopair auto-package-update auctex))
+   '(rfc-mode graphviz-dot-mode pdf-tools paredit sly vterm elisp-lint package-lint buttercup lsp-pyright hide-mode-line dap-mode treemacs org-roam rtags eglot click-mode cmake-font-lock lsp-java lsp-clangd hierarchy call-graph transpose-frame window-purpose lsp-ui company-lsp lsp-mode org-mime solarized-theme doom-themes monokai-theme zenburn-theme 0blayout powerline zzz-to-char yasnippet-snippets yapfify yaml-mode writegood-mode window-numbering which-key wgrep web-mode vlf use-package string-inflection sourcerer-theme realgud rainbow-delimiters prognth origami multiple-cursors modern-cpp-font-lock markdown-mode magit-gerrit json-mode hungry-delete google-c-style git-gutter flyspell-correct-ivy flycheck-pyflakes elpy edit-server cuda-mode counsel-etags company-jedi cmake-mode clang-format beacon autopair auto-package-update auctex))
  '(pos-tip-background-color "#FFFACE")
  '(pos-tip-foreground-color "#272822")
  '(purpose-mode nil)
