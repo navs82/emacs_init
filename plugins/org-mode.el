@@ -1,6 +1,6 @@
 
 ;; setting global key for org-mode
-1(global-set-key (kbd "C-c l") 'org-store-link)
+(global-set-key (kbd "C-c l") 'org-store-link)
 (global-set-key (kbd "C-c a") 'org-agenda)
 (global-set-key (kbd "C-c c") 'org-capture)
 
@@ -26,6 +26,7 @@
                                ("T" "Tickler" entry
                                (file+headline "~/local_drive/personal/gtd/tickler.org" "Tickler")
                                "* %i%? \n %U")))
+
 
 (setq org-todo-keywords '((sequence "TODO(t)" "WAITING(w)" "|" "DONE(d)")))
 
@@ -82,8 +83,28 @@
       (setq should-skip-entry t))
   )
 
-(setq org-agenda-prefix-format
-      '((agenda . " %i %-12:c%?-12t% s")
-        (todo   . " %i %-12:c")
-        (tags   . " %i %-12:c")
-        (search . " %i %-12:c")))
+;;(setq org-agenda-prefix-format
+;;      '((agenda . " %i %-12:c%?-12t% s")
+;;        (todo   . " %i %-12:c")
+;;        (tags   . " %i %-12:c")
+;;        (search . " %i %-12:c")))
+
+;; picked from [[https://zzamboni.org/post/beautifying-org-mode-in-emacs/]]
+;; org-mode to hide the emphasis markup (e.g. /.../ for italics, *...* for bold, etc.)
+(setq org-hide-emphasis-markers t)
+
+;;The org-bullets package replaces all headline markers with different Unicode bullets:
+(use-package org-bullets
+  :config
+    (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1))))
+
+;;https://emacs.stackexchange.com/questions/5889/how-to-highlight-text-permanently-in-org-mode/5892#5892
+(add-to-list 'org-emphasis-alist
+             '("*" (:foreground "red")))
+(add-to-list 'org-emphasis-alist
+             '("_" (:foreground "yellow")))
+(add-to-list 'org-emphasis-alist
+             '("/" (:foreground "green")))
+
+;;             '("_" (:foreground "black")))
+            ;; '("/" (:foreground "blue")))
