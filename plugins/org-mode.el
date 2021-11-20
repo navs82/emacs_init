@@ -108,3 +108,4 @@
 
 ;;             '("_" (:foreground "black")))
             ;; '("/" (:foreground "blue")))
+(add-hook 'org-mode-hook 'turn-on-flyspell)

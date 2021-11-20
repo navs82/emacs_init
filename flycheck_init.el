@@ -1637,8 +1637,6 @@ This is particularly useful under Mac OSX, where GUI apps are not started from a
   ;;(add-hook 'org-mode-hook (lambda() (lsp)))
   )  ; or lsp-deferred
 
-;;Ediff configuration
-(setq ediff-split-window-function 'split-window-horizontally)
 (provide '.emacs)
 ;;; .emacs ends here
 (custom-set-variables

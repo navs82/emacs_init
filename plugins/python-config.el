@@ -96,7 +96,8 @@
   :defer t
   :config
   ;; Setting work on to easily switch between environments
-  (setenv "WORKON_HOME" (expand-file-name "~/opt/anaconda3/envs/"))
+  (setenv "WORKON_HOME" (expand-file-name "~/anaconda3/envs/"))
+  ;;(setenv "WORKON_HOME" (concat (getenv "CONDA_PREFIX") "/envs"))
   ;; Display virtual envs in the menu bar
   (setq pyvenv-menu t)
   ;; Restart the python process when switching environments
