@@ -27,6 +27,7 @@
                                (file+headline "~/local_drive/personal/gtd/tickler.org" "Tickler")
                                "* %i%? \n %U")))
 
+<<<<<<< HEAD
 ;; ledger variables
 ;; Credit cards
 defvar cs "chase-sapphire"
@@ -64,6 +65,10 @@ defvar as "chase:saving"
               org-capture-templates))
 
 (setq org-todo-keywords '((sequence "TODO(t)" "WAITING(w)" "|" "DONE(d)")))
+=======
+;; todo->not started, Next->should be picked up next, WWAITING: work is started bu not finished, DONE->Finished
+(setq org-todo-keywords '((sequence "TODO(t)" "NEXT(n)" "WAITING(w)" "|" "DONE(d)")))
+>>>>>>> 258c01c53e42daf660c188d15a8ea0bd92dcec65
 
 ;; Following the GTD principle, what I usually want is to only show the first action to be done (or next action) for
 ;;           each project with the @office tag.
@@ -135,18 +140,45 @@ defvar as "chase:saving"
   :config
     (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1))))
 
+;;https://emacs.stackexchange.com/questions/44081/how-to-tweak-org-emphasis-alist-to-put-e-g-neon-yellow-over-bold-or-italic
+(setq org-emphasis-alist
+  '(("*" (bold :foreground "Orange" ))
+    ("/" italic)
+    ("_" underline)
+    ("=" (:background "maroon" :foreground "white"))
+    ("~" (:background "deep sky blue" :foreground "MidnightBlue"))
+    ("+" (:strike-through t :foreground "black" :background "white"))))
+
 ;;https://emacs.stackexchange.com/questions/5889/how-to-highlight-text-permanently-in-org-mode/5892#5892
+<<<<<<< HEAD
 (add-to-list 'org-emphasis-alist
              '("*" (:foreground "red")))
 ;;(add-to-list 'org-emphasis-alist
 ;;             '("_" (:foreground "yellow")))
 ;;(add-to-list 'org-emphasis-alist
 ;;             '("/" (:foreground "green")))
+=======
+;; (add-to-list 'org-emphasis-alist
+;;              '("*" (:foreground "red")))
+;; ;; Underline
+;; (add-to-list 'org-emphasis-alist
+;;              '("_" (:foreground "yellow")))
+;; ;; Italics
+;; (add-to-list 'org-emphasis-alist
+;;              '("/" (:foreground "green")))
+;; ;; Strikethrough
+;; (add-to-list 'org-emphasis-alist
+             ;; '("+" '(:strike-through t :foreground "black" :background "white")))
+>>>>>>> 258c01c53e42daf660c188d15a8ea0bd92dcec65
 
 ;;             '("_" (:foreground "black")))
             ;; '("/" (:foreground "blue")))
 (add-hook 'org-mode-hook 'turn-on-flyspell)
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 258c01c53e42daf660c188d15a8ea0bd92dcec65
 ;; Agenda group tags
 (setq org-tag-alist '((:startgrouptag)
                       ("GTD")
@@ -171,7 +203,11 @@ defvar as "chase:saving"
                                  (:grouptags)
                                  ("Context") ("Task")
                                  (:endgrouptag)
+<<<<<<< HEAD
                                  (:startgouptag)
+=======
+                                 (:startgrouptag)
+>>>>>>> 258c01c53e42daf660c188d15a8ea0bd92dcec65
                                  ("Context")
                                  (:grouptags)
                                  ("@home") ("@office") ("@call") ("@agenda")
@@ -187,9 +223,73 @@ defvar as "chase:saving"
                                  ("reading") ("personal-project") ("deepthi") ("vihaan") ("maya") ("naveen") ("parents")
                                  (:endgrouptag)
                                  ))
+<<<<<<< HEAD
+=======
+
+;; fold all but the current headline, Sourcee
+(defun org-show-current-heading-tidily ()
+  (interactive)  ;Inteactive
+  "Show next entry, keeping other entries closed."
+  (if (save-excursion (end-of-line) (outline-invisible-p))
+      (progn (org-show-entry) (show-children))
+    (outline-back-to-heading)
+    (unless (and (bolp) (org-on-heading-p))
+      (org-up-heading-safe)
+      (hide-subtree)
+      (error "Boundary reached"))
+    (org-overview)
+    (org-reveal t)
+    (org-show-entry)
+    (show-children)))
+
+
+;; use prefix M-p for personal function key-bindings http://emacslife.com/read-lisp-tweak-emacs/beginner-3-make-things-more-convenient.html
+;;(global-set-key "\M-=" 'org-show-current-heading-tidily)
+(global-set-key (kbd "M-p") nil) ;; Remove the old keybinding
+(global-set-key (kbd "M-p f") 'org-show-current-heading-tidily)
+;;(global-set-key (kbd "M-t w") 'org-show-previous-heading-tidily)
+;;(global-set-key (kbd "M-t t") 'transpose-words)
+
+
+(defun org-show-previous-heading-tidily ()
+  "Show previous entry, keeping other entries closed."
+  (let ((pos (point)))
+    (outline-previous-heading)
+    (unless (and (< (point) pos) (bolp) (org-on-heading-p))
+      (goto-char pos)
+      (hide-subtree)
+      (error "Boundary reached"))
+    (org-overview)
+    (org-reveal t)
+    (org-show-entry)
+    (recenter-top-bottom)
+    (show-children)
+    (recenter-top-bottom)))
+
+;;(setq org-speed-commands-user
+;;      '(("j" . ded/org-show-next-heading-tidily)
+;;        ("l" . ded/org-show-previous-heading-tidily))))
+
+>>>>>>> 258c01c53e42daf660c188d15a8ea0bd92dcec65
 ;; JIRA Integration
 (use-package org-jira
   :ensure t
   :config
+<<<<<<< HEAD
   (make-directory "~/.org-jira")
   (setq jiralib-url "https://jira.ikarem.io"))
+=======
+  (make-directory "~/local_drive/.org-jira")
+  (setq jirlib-url "https://jira.ikare.io"))
+
+
+;;Project Management
+(use-package org-ql
+  :ensure t)
+(use-package ts
+  :ensure t)
+(use-package s
+  :ensure t)
+(use-package dash
+  :ensure t)
+>>>>>>> 258c01c53e42daf660c188d15a8ea0bd92dcec65
