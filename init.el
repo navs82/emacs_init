@@ -1385,7 +1385,7 @@
   "Create the header string and display it."
   ;; The dark blue in the header for which-func is terrible to read.
   ;; However, in the terminal it's quite nice
-  (if window-system
+  (if (display-graphic-p)
       (custom-set-faces
        '(which-func ((t (:foreground "#8fb28f")))))
     (custom-set-faces
@@ -1636,6 +1636,29 @@ This is particularly useful under Mac OSX, where GUI apps are not started from a
   :config
   ;;(add-hook 'org-mode-hook (lambda() (lsp)))
   )  ; or lsp-deferred
+
+;; Default Tramp method
+;;(use-package tramp
+;;  : ensure t
+;;  :config
+;; (setq tramp-default-method "ssh"))
+
+;;https://www.gnu.org/software/emacs/manual/html_node/emacs/Auto-Revert.html
+(global-auto-revert-mode t)
+;; Also auto refresh dired, but be quiet about it
+(setq global-auto-revert-non-file-buffers t)
+(setq auto-revert-verbose nil)
+
+;; Ledger mode
+(use-package ledger-mode
+  :ensure t
+  :init
+  (setq ledger-clear-whole-transaction 1)
+  :config
+  :mode ("\\.dat\\'"
+        "\\.ledger\\'"))
+(use-package flycheck-ledger
+  :after ledger-mode)
 
 ;;Ediff configuration
 (setq ediff-split-window-function 'split-window-horizontally)
