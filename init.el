@@ -41,6 +41,11 @@
 ;; Compilation command for C/C++
 (defvar my:compile-command "clang++ -Wall -Wextra -std=c++14 ")
 
+;;Configuring GnuPG
+;;(require 'epa-file)
+;;(custom-set-variables '(epg-gpg-program  "/usr/local/bin/gpg2"))
+;;(epa-file-enable)
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Set packages to install
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -1637,6 +1642,20 @@ This is particularly useful under Mac OSX, where GUI apps are not started from a
   ;;(add-hook 'org-mode-hook (lambda() (lsp)))
   )  ; or lsp-deferred
 
+;;ledger-mode
+(use-package ledger-mode
+  :ensure t
+  :init
+  (setq ledger-clear-whole-transactions t)
+  (setq ledger-report-use-strict t)
+  :config
+  :mode ("\\.dat\\'"
+         "\\.ledger\\'"))
+
+(use-package flycheck-ledger :after ledger-mode)
+
+;;for sync of network files that has not  been changed locally
+(global-auto-revert-mode t)
 ;;Ediff configuration
 (setq ediff-split-window-function 'split-window-horizontally)
 (provide '.emacs)

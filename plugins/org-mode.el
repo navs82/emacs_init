@@ -27,6 +27,41 @@
                                (file+headline "~/local_drive/personal/gtd/tickler.org" "Tickler")
                                "* %i%? \n %U")))
 
+;; ledger variables
+;; Credit cards
+defvar cs "chase-sapphire"
+defvar cc "costco"
+;;Assett
+defvar ac "chase:checking"
+defvar as "chase:saving"
+;; Ledger mode captures
+(setq org-capture-templates
+      (append '(("l" "Ledger entries")
+                ("le" "Expense" plain
+                 (file  "~/local_drive/personal/ledger/ledger-2022.dat")
+                 "%(org-read-date) %^{Payee}
+    Expenses:%^{Account}   %^{Amount}
+    Liabilities:%^{Credit-Card}
+"
+                 :empty-lines 1
+                 :immediate-finish t)
+                ("li" "Investment" plain
+                (file  "~/local_drive/personal/ledger/ledger-2022.dat")
+                "%(org-read-date) * %^{Payee}
+    Asset:%^{to_account}   %^{Amount}
+    Asset:%^{from_account}
+"
+                :empty-lines 1
+                :immediate-finish t)
+                ("ls" "Salary" plain
+                 (file  "~/local_drive/personal/ledger/ledger-2022.dat")
+                 "%(org-read-date) * %^{Payee} USD
+  Asset:Bank:Chase:%^{Account}    %^{Amount} USD
+  Income:Salary
+"
+                 :empty-lines 1
+                 :immediate-finish t))
+              org-capture-templates))
 
 (setq org-todo-keywords '((sequence "TODO(t)" "WAITING(w)" "|" "DONE(d)")))
 
@@ -95,17 +130,66 @@
 
 ;;The org-bullets package replaces all headline markers with different Unicode bullets:
 (use-package org-bullets
+  :ensure t
+  :init
   :config
     (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1))))
 
 ;;https://emacs.stackexchange.com/questions/5889/how-to-highlight-text-permanently-in-org-mode/5892#5892
 (add-to-list 'org-emphasis-alist
              '("*" (:foreground "red")))
-(add-to-list 'org-emphasis-alist
-             '("_" (:foreground "yellow")))
-(add-to-list 'org-emphasis-alist
-             '("/" (:foreground "green")))
+;;(add-to-list 'org-emphasis-alist
+;;             '("_" (:foreground "yellow")))
+;;(add-to-list 'org-emphasis-alist
+;;             '("/" (:foreground "green")))
 
 ;;             '("_" (:foreground "black")))
             ;; '("/" (:foreground "blue")))
 (add-hook 'org-mode-hook 'turn-on-flyspell)
+
+;; Agenda group tags
+(setq org-tag-alist '((:startgrouptag)
+                      ("GTD")
+                      (:grouptags)
+                      ("Control")
+                      ("Persp")
+                      (:endgrouptag)
+                      (:startgrouptag)
+                      ("Control")
+                      (:grouptags)
+                      ("Context")
+                      ("Task")
+                      (:endgrouptag)))
+
+(setq org-tag-alist-for-agenda '((:startgrouptag)
+                                 ("GTD")
+                                 (:grouptags)
+                                 ("Control") ("Persp")
+                                 (:endgrouptag)
+                                 (:startgrouptag)
+                                 ("Control")
+                                 (:grouptags)
+                                 ("Context") ("Task")
+                                 (:endgrouptag)
+                                 (:startgouptag)
+                                 ("Context")
+                                 (:grouptags)
+                                 ("@home") ("@office") ("@call") ("@agenda")
+                                 (:endgrouptag)
+                                 (:startgrouptag)
+                                 ("@office")
+                                 (:grouptags)
+                                 ("new-project") ("work-reading") ("quick") ("focus") ("follow-up") ("night") ("tech_understanding")
+                                 (:endgrouptag)
+                                 (:startgrouptag)
+                                 ("@home")
+                                 (:grouptags)
+                                 ("reading") ("personal-project") ("deepthi") ("vihaan") ("maya") ("naveen") ("parents")
+                                 (:endgrouptag)
+                                 ))
+;; JIRA Integration
+(use-package org-jira
+  :ensure t
+  :config
+  (make-directory "~/.org-jira")
+  (setq jiralib-url "https://jira.ikarem.io"))
