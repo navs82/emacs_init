@@ -1642,22 +1642,7 @@ This is particularly useful under Mac OSX, where GUI apps are not started from a
   ;;(add-hook 'org-mode-hook (lambda() (lsp)))
   )  ; or lsp-deferred
 
-<<<<<<< HEAD
-;;ledger-mode
-(use-package ledger-mode
-  :ensure t
-  :init
-  (setq ledger-clear-whole-transactions t)
-  (setq ledger-report-use-strict t)
-  :config
-  :mode ("\\.dat\\'"
-         "\\.ledger\\'"))
 
-(use-package flycheck-ledger :after ledger-mode)
-
-;;for sync of network files that has not  been changed locally
-(global-auto-revert-mode t)
-=======
 ;; Default Tramp method
 ;;(use-package tramp
 ;;  : ensure t
@@ -1674,14 +1659,14 @@ This is particularly useful under Mac OSX, where GUI apps are not started from a
 (use-package ledger-mode
   :ensure t
   :init
-  (setq ledger-clear-whole-transaction 1)
+  q(setq ledger-clear-whole-transaction 1)
   :config
   :mode ("\\.dat\\'"
         "\\.ledger\\'"))
 (use-package flycheck-ledger
   :after ledger-mode)
 
->>>>>>> 258c01c53e42daf660c188d15a8ea0bd92dcec65
+
 ;;Ediff configuration
 (setq ediff-split-window-function 'split-window-horizontally)
 (provide '.emacs)
