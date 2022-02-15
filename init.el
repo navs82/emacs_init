@@ -1659,10 +1659,22 @@ This is particularly useful under Mac OSX, where GUI apps are not started from a
 (use-package ledger-mode
   :ensure t
   :init
-  q(setq ledger-clear-whole-transaction 1)
+  (setq ledger-clear-whole-transaction 1)
   :config
   :mode ("\\.dat\\'"
-        "\\.ledger\\'"))
+        "\\.ledger\\'")
+  :bind (:map ledger-mode-map
+              ("C-x C-s" . ledger-save))
+  :preface
+  (defun ledger-save ()
+    "Automatically clean the ledger buffer at each save."
+    (interactive)
+    (save-excursion
+      (when (buffer-modified-p)
+        (with-demoted-errors (ledger-mode-clean-buffer))
+        (save-buffer))))
+  )
+
 (use-package flycheck-ledger
   :after ledger-mode)
 
