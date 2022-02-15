@@ -8,10 +8,15 @@
     (global-set-key (kbd "C-c a") 'org-agenda)
     (global-set-key (kbd "C-c c") 'org-capture)
 
+;; Initial visivibility set to overview
+(setq org-startup-folded t)
     ;; set default priority to C
     (setq org-default-priority ?C
           org-highest-priority ?A
           org-lowest-priority ?C )
+
+;; Set the repeater task back to in TODO state
+(setq org-todo-repeat-to-state "TODO")
 
     ;;GTD from Nicolas Petton [https://emacs.cafe/emacs/orgmode/gtd/2017/06/30/orgmode-gtd.html]
 
@@ -122,6 +127,68 @@
         (unless(my-org-has-child-p))
           (setq should-skip-entry t))
       )
+
+;; org-agenda changes
+(use-package org-super-agenda
+  :ensure t
+  :config
+  (add-to-list 'org-agenda-custom-commands
+               '("n" "Next View"
+                 ((agenda "" ((org-agenda-span 'day)
+                              (org-super-agenda-groups
+                               '((:name "Today"
+                                        :time-grid t
+                                        :todo "TODAY"
+                                        :scheduled today
+                                        :order 0)
+                                 (:habit t)
+                                 (:name "Due Today"
+                                        :deadline today
+                                        :order 2)
+                                 (:name "Due Soon"
+                                        :deadline future
+                                        :order 8)
+                                 (:name "Overdue"
+                                        :deadline past
+                                        :order 7)
+                                 ))))
+                  (todo "" ((org-agenda-overriding-header "")
+                            (org-super-agenda-groups
+                             '((:name "Urgent"
+                                      :file-path "gtd"
+                                      :tag ("urgent")
+                                      :order 0
+                                      )
+                               (:discard (:todo ("TODO" "NEXT" "WAITING")))
+                               (:auto-category t
+                                               :order 9)
+                               ))))
+
+                  (todo "" ((org-agenda-overriding-header "")
+                            (org-super-agenda-groups
+                             '((:name "Important"
+                                      :file-path "gtd"
+                                      :tag ("important")
+                                      :order 0
+                                      )
+                               (:discard (:todo ("TODO" "NEXT" "WAITING")))
+                               (:auto-category t
+                                               :order 9)
+                               ))))
+
+                  (todo "" ((org-agenda-overriding-header "")
+                            (org-super-agenda-groups
+                             '((:name "Priority"
+                                      :file-path "gtd"
+                                      :priority ("A" "B")
+                                      :order 0
+                                      )
+                               (:discard (:todo ("TODO" "NEXT" "WAITING")))
+                               (:auto-category t
+                                               :order 9)
+                               )))))))
+  (org-super-agenda-mode)
+  (org-agenda nil "a"))
 
     ;;(setq org-agenda-prefix-format
     ;;      '((agenda . " %i %-12:c%?-12t% s")
