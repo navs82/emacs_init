@@ -1,4 +1,8 @@
 
+;;archive file should be pre-pendeddd with the year and filed under date subtree
+(setq org-archive-location (concat (format-time-string "%Y-" (current-time))
+                                   "%s_archive::datetree/"))
+
     ;; setting global key for org-mode
     (global-set-key (kbd "C-c l") 'org-store-link)
     (global-set-key (kbd "C-c a") 'org-agenda)
