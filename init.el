@@ -150,7 +150,7 @@
 
 ;; Auto-wrap at 120 characters
 (setq-default auto-fill-function 'do-auto-fill)
-(setq-default fill-column 120)
+(setq-default fill-column 150)
 (turn-on-auto-fill)
 ;; Disable auto-fill-mode in programming mode
 (add-hook 'prog-mode-hook (lambda () (auto-fill-mode -1)))
@@ -215,6 +215,9 @@
             )
           )
 
+;;
+;;USING PGP
+(setq epg-gpg-program "gpg2")
 ;; Setup use-package
 (eval-when-compile
   (require 'use-package))
@@ -342,6 +345,7 @@
   (add-hook 'org-mode-hook #'flyspell-mode)
 ;;            (lambda() (ivy-wrap -1 message "org-mode-hook-called")))
   (add-hook 'c++-mode-hook (lambda()(ivy-wrap t)))
+  (add-hook 'c++-mode-hook (lambda () (set-fill-column 120)))
   (global-set-key (kbd "C-c C-r") 'ivy-resume)
   ;; Show #/total when scrolling buffers
   (setq ivy-count-format "%d/%d ")
@@ -1659,8 +1663,8 @@ This is particularly useful under Mac OSX, where GUI apps are not started from a
 (use-package ledger-mode
   :ensure t
   :init
-  (setq ledger-clear-whole-transaction 1)
   :config
+  (setq ledger-clear-whole-transaction 1)
   :mode ("\\.dat\\'"
         "\\.ledger\\'")
   :bind (:map ledger-mode-map
