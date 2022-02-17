@@ -130,65 +130,77 @@
 
 ;; org-agenda changes
 (use-package org-super-agenda
-  :ensure t
-  :config
-  (add-to-list 'org-agenda-custom-commands
-               '("n" "Next View"
-                 ((agenda "" ((org-agenda-span 'day)
-                              (org-super-agenda-groups
-                               '((:name "Today"
-                                        :time-grid t
-                                        :todo "TODAY"
-                                        :scheduled today
-                                        :order 0)
-                                 (:habit t)
-                                 (:name "Due Today"
-                                        :deadline today
-                                        :order 2)
-                                 (:name "Due Soon"
-                                        :deadline future
-                                        :order 8)
-                                 (:name "Overdue"
-                                        :deadline past
-                                        :order 7)
-                                 ))))
-                  (todo "" ((org-agenda-overriding-header "")
-                            (org-super-agenda-groups
-                             '((:name "Urgent"
-                                      :file-path "gtd"
-                                      :tag ("urgent")
-                                      :order 0
-                                      )
-                               (:discard (:todo ("TODO" "NEXT" "WAITING")))
-                               (:auto-category t
-                                               :order 9)
-                               ))))
+              :ensure t
+              :config
+              (add-to-list 'org-agenda-custom-commands
+                           '("n" "Next View"
+                             ((agenda "" ((org-agenda-span 'day)
+                                          (org-super-agenda-groups
+                                           '((:name "Today"
+                                                    :time-grid t
+                                                    :todo "TODAY"
+                                                    :scheduled today
+                                                    :order 0)
+                                             (:habit t)
+                                             (:name "Due Today"
+                                                    :deadline today
+                                                    :order 2)
+                                             (:name "Due Soon"
+                                                    :deadline future
+                                                    :order 8)
+                                             (:name "Overdue"
+                                                    :deadline past
+                                                    :order 7)
+                                             ))))
+                              (todo "" ((org-agenda-overriding-header "")
+                                        (org-super-agenda-groups
+                                         '((:discard (:not (:tag ("urgent"))))
+                                           (:name "Urgent"
+                                                  :file-path "gtd"
+                                                  :tag ("urgent")
+                                                  :order 0
+                                                  )
+                                           (:auto-category t
+                                                           :order 9)
+                                           ))))
 
-                  (todo "" ((org-agenda-overriding-header "")
-                            (org-super-agenda-groups
-                             '((:name "Important"
-                                      :file-path "gtd"
-                                      :tag ("important")
-                                      :order 0
-                                      )
-                               (:discard (:todo ("TODO" "NEXT" "WAITING")))
-                               (:auto-category t
-                                               :order 9)
-                               ))))
+                              (todo "" ((org-agenda-overriding-header "")
+                                        (org-super-agenda-groups
+                                         '((:discard (:not (:tag "important")))
+                                           (:name "Important"
+                                                  :file-path "gtd"
+                                                  :tag ("important")
+                                                  :order 0
+                                                  )
+                                           (:auto-category t
+                                                           :order 9)
+                                           ))))
 
-                  (todo "" ((org-agenda-overriding-header "")
-                            (org-super-agenda-groups
-                             '((:name "Priority"
-                                      :file-path "gtd"
-                                      :priority ("A" "B")
-                                      :order 0
-                                      )
-                               (:discard (:todo ("TODO" "NEXT" "WAITING")))
-                               (:auto-category t
-                                               :order 9)
-                               )))))))
-  (org-super-agenda-mode)
-  (org-agenda nil "a"))
+                              (todo "" ((org-agenda-overriding-header "")
+                                        (org-super-agenda-groups
+                                         '((:discard (:not (:todo ("WAITING" "NEXT"))))
+                                           (:name "Finish these Task"
+                                                  :file-path "gtd"
+                                                  :tag ("important")
+                                                  :order 0
+                                                  )
+                                           (:auto-category t
+                                                           :order 9)
+                                           ))))
+
+                              (todo "" ((org-agenda-overriding-header "")
+                                        (org-super-agenda-groups
+                                         '( (:discard (:not (:priority ("A" "B"))))
+                                           (:name "Priority"
+                                                  :file-path "gtd"
+                                                  :priority ("A" "B")
+                                                  :order 0
+                                                  )
+                                           (:auto-category t
+                                                           :order 9)
+                                           )))))))
+              (org-super-agenda-mode)
+              (org-agenda nil "a"))
 
     ;;(setq org-agenda-prefix-format
     ;;      '((agenda . " %i %-12:c%?-12t% s")
