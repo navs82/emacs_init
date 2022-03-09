@@ -111,12 +111,12 @@
   :ensure t
   :defer t
   :config
-  (setq lsp-clients-python-library-directories '("/usr/" "~/miniconda3/pkgs"))
+  (setq lsp-clients-python-library-directories '("/usr/" "~/anaconda3/pkgs"))
   (setq lsp-pyright-disable-language-service nil
 	lsp-pyright-disable-organize-imports nil
 	lsp-pyright-auto-import-completions t
 	lsp-pyright-use-library-code-for-types t
-	lsp-pyright-venv-path "~/miniconda3/envs")
+	lsp-pyright-venv-path "~/anaconda3/envs")
   :hook ((python-mode . (lambda ()
                           (require 'lsp-pyright) (lsp-deferred)))))
 
@@ -126,3 +126,9 @@
   :ensure t
   :defer t
   :hook (python-mode . yapf-mode))
+
+(use-package conda
+  :ensure t
+  :init
+  (setq conda-anaconda-home (expand-file-name "~/anaconda3"))
+  (setq conda-env-home-directory (expand-file-name "~/anaconda3")))
