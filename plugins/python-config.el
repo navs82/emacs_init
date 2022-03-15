@@ -106,6 +106,7 @@
   :hook (python-mode . pyvenv-mode))
 
 ;; Language server for Python
+;; Pyright is microsoft langauge server
 ;; Read the docs for the different variables set in the config.
 (use-package lsp-pyright
   :ensure t
@@ -127,6 +128,7 @@
   :defer t
   :hook (python-mode . yapf-mode))
 
+;;https://stackoverflow.com/questions/55175916/emacs-and-conda-workaround
 (use-package conda
   :ensure t
   :init

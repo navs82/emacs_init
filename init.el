@@ -1682,6 +1682,19 @@ This is particularly useful under Mac OSX, where GUI apps are not started from a
 (use-package flycheck-ledger
   :after ledger-mode)
 
+(use-package deft
+  :ensure t
+  :init
+  :config
+  (setq deft-default-extension "org")
+  (add-to-list 'load-path "/path/to/deft/repository")
+  (setq deft-extensions '("txt" "tex" "org"))
+  (setq deft-directory "~/local_drive/personal/OrgNotes")
+  (setq deft-use-filename-as-title nil)
+  (setq deft-text-mode 'org-mode)
+  (global-set-key (kbd "C-M-S-s-d") 'deft)
+  (global-set-key (kbd "C-x C-g") 'deft-find-file)
+  )
 
 ;;Ediff configuration
 (setq ediff-split-window-function 'split-window-horizontally)
