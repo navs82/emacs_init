@@ -1,0 +1,13 @@
+# -*- mode: snippet -*-
+# name: work_tracking
+# key: <work
+# --
+* `(format-time-string "%Y-%m-%d")`
+** Meeting
+** Technical Queries
+** Technical Work
+** Personal Improvement
+** Technical Reading
+** Interview
+** Planning
+** team-queries

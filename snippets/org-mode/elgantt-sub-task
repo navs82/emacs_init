@@ -1,0 +1,10 @@
+# -*- mode: snippet -*-
+# name: elgantt-sub-task
+# key: elgantt-sub-task
+# --
+:PROPERTIES:
+:ID:
+:ELGANTT-COLOR:
+:ELGANTT-LINKED-TO:
+:Effort:
+:END:
