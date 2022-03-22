@@ -1227,8 +1227,8 @@
   :config
   (yas-reload-all)
   ;;(setq yas-snippet-dirs '( "~/local_drive/personal/snippets/org-mode"))
-  (setq yas-snippet-dirs (append yas-snippet-dirs
-                         '("/Users/NaveenWork/local_drive/personal/snippets/org-mode")))
+;;  (setq yas-snippet-dirs (append
+;;                         (expand-file-name "~/local_drive/personal/snippets/org-mode")))
   )
 ;; Apparently the company-yasnippet backend shadows all backends that
 ;; come after it. To work around this we assign yasnippet to a different

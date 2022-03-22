@@ -334,8 +334,8 @@
 (use-package org-jira
   :ensure t
   :config
-  (unless (file-exists-p "~/local_drive/Work/.org-jira")
-  (make-directory "~/local_drive/Work/.org-jira"))
+  (unless (file-exists-p "~/local_drive/work/.org-jira")
+  (make-directory "~/local_drive/work/.org-jira"))
   (setq jiralib-url "https://jira.ikarem.io"))
 
 
