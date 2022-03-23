@@ -1,0 +1,6 @@
+# key: 1:1
+# name: 1:1 meeting teamplate
+# --
+* Timestamp: `(format-time-string "%Y-%m-%d")`$0
+** Agenda
+** Notes
