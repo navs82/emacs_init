@@ -1037,7 +1037,9 @@
              ("C-c n i" . org-roam-node-insert)
              ("C-c n c" . org-roam-capture)
              ;; Dailies
-             ("C-c n j" . org-roam-dailies-capture-today))
+             ("C-c n j" . org-roam-dailies-capture-today)
+             ("C-c n y" . org-roam-dailies-goto-yesterday)
+             ("C-c n t" . org-roam-dailies-goto-today))
       :config
       (org-roam-db-autosync-mode)
       (setq org-roam-db-location  "/Volumes/NAS_Google_Drive/references/OrgNotes/org-roam.db")
