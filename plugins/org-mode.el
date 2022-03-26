@@ -21,19 +21,19 @@
     ;;GTD from Nicolas Petton [https://emacs.cafe/emacs/orgmode/gtd/2017/06/30/orgmode-gtd.html]
 
     ;; add the following files to agenda list
-    (setq org-agenda-files '("~/local_drive/personal/gtd/inbox.org"
-                             "~/local_drive/personal/gtd/gtd.org"
-                             "~/local_drive/personal/gtd/tickler.org"))
+    (setq org-agenda-files '("~/local_drive/personal/OrgNotes/20220325092152-gtd.org"
+                             "~/local_drive/personal/OrgNotes/20220325092233-inbox.org"
+                             "~/local_drive/personal/OrgNotes/20220325092314-tickler.org"))
 
-    (setq org-refile-targets '(("~/local_drive/personal/gtd/gtd.org" :maxlevel . 3)
-                               ("~/local_drive/personal/gtd/someday.org" :level . 1)
-                               ("~/local_drive/personal/gtd/tickler.org" :maxlevel . 2)))
+    (setq org-refile-targets '(("~/local_drive/personal/OrgNotes/20220325092152-gtd.org" :maxlevel . 3)
+                               ("~/local_drive/personal/OrgNotes/20220325092343-someday.org" :level . 1)
+                               ("~/local_drive/personal/OrgNotes/20220325092314-tickler.org" :maxlevel . 2)))
 
     (setq org-capture-templates '(("t" "Todo [inbox]" entry
-                                   (file+headline "~/local_drive/personal/gtd/inbox.org" "Tasks")
+                                   (file+headline "~/local_drive/personal/OrgNotes/20220325092233-inbox.org" "Tasks")
                                    "* TODO %i%?")
                                    ("T" "Tickler" entry
-                                   (file+headline "~/local_drive/personal/gtd/tickler.org" "Tickler")
+                                   (file+headline "~/local_drive/personal//OrgNotes/20220325092314-tickler.org" "Tickler")
                                    "* %i%? \n %U")))
 
     ;; ledger variables
