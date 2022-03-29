@@ -1,5 +1,5 @@
 
-;;archive file should be pre-pendeddd with the year and filed under date subtree
+;;archive file should be pre-pended with the year and filed under date subtree
 (setq org-archive-location (concat (format-time-string "%Y-" (current-time))
                                    "%s_archive::datetree/"))
 
@@ -23,7 +23,8 @@
     ;; add the following files to agenda list
     (setq org-agenda-files '("~/local_drive/personal/OrgNotes/gtd.org"
                              "~/local_drive/personal/OrgNotes/inbox.org"
-                             "~/local_drive/personal/OrgNotes/tickler.org"))
+                             "~/local_drive/personal/OrgNotes/tickler.org"
+                             "~/local_drive/personal/OrgNotes/personal-habits-2022.org"))
 
     (setq org-refile-targets '(("~/local_drive/personal/OrgNotes/gtd.org" :maxlevel . 3)
                                ("~/local_drive/personal/OrgNotes/someday.org" :level . 1)
