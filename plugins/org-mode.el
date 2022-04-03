@@ -349,3 +349,30 @@
   :ensure t)
 (use-package dash
   :ensure t)
+
+;; Beautify org-mode
+(setq org-startup-indented t
+      org-pretty-entities t
+      org-hide-emphasis-markers t
+      org-startup-with-inline-images t
+      org-image-actual-width '(300))
+
+;; Change the bullets
+(use-package org-superstar
+      :config
+      (setq org-superstar-special-todo-items t)
+      (add-hook 'org-mode-hook (lambda ()
+                                 (org-superstar-mode 1))))
+;; Increase line spacing for better readability
+(setq-default line-spacing 5)
+
+;;
+(setq org-todo-keyword-faces
+        (quote (("TODO" :foreground "red" :weight bold)
+                ("NEXT" :foreground "magenta" :weight bold)
+                ("DONE" :foreground "forest green" :weight bold)
+                ("WAITING" :foreground "orange" :weight bold)
+                ("HOLD" :foreground "magenta" :weight bold)
+                ("CANCELLED" :foreground "forest green" :weight bold)
+                ("MEETING" :foreground "forest green" :weight bold)
+                )))
