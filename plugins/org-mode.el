@@ -11,9 +11,9 @@
 ;; Initial visivibility set to overview
 (setq org-startup-folded t)
     ;; set default priority to C
-    (setq org-default-priority ?C
-          org-highest-priority ?A
-          org-lowest-priority ?C )
+(setq org-default-priority ?C
+      org-highest-priority ?A
+      org-lowest-priority ?C )
 
 ;; Set the repeater task back to in TODO state
 (setq org-todo-repeat-to-state "TODO")
@@ -157,7 +157,7 @@
                                         (org-super-agenda-groups
                                          '((:discard (:not (:tag ("urgent"))))
                                            (:name "Urgent"
-                                                  :file-path "gtd"
+                                                  :file-path "/OrgNotes/gtd"
                                                   :tag ("urgent")
                                                   :order 0
                                                   )
@@ -169,7 +169,7 @@
                                         (org-super-agenda-groups
                                          '((:discard (:not (:tag "important")))
                                            (:name "Important"
-                                                  :file-path "gtd"
+                                                  :file-path "/OrgNotes/gtd"
                                                   :tag ("important")
                                                   :order 0
                                                   )
@@ -181,7 +181,7 @@
                                         (org-super-agenda-groups
                                          '((:discard (:not (:todo ("WAITING" "NEXT"))))
                                            (:name "Finish these Task"
-                                                  :file-path "gtd"
+                                                  :file-path "/OrgNotes/gtd"
                                                   :tag ("important")
                                                   :order 0
                                                   )
@@ -193,7 +193,7 @@
                                         (org-super-agenda-groups
                                          '( (:discard (:not (:priority ("A" "B"))))
                                            (:name "Priority"
-                                                  :file-path "gtd"
+                                                  :file-path "/OrgNotes/gtd"
                                                   :priority ("A" "B")
                                                   :order 0
                                                   )
