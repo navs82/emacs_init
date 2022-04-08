@@ -685,13 +685,10 @@
 ;;            suggestions in a popup buffer
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (use-package which-key
-  :ensure t
-  :init
-  (eval-when-compile
-    ;; Silence missing function warnings
-    (declare-function which-key-mode "which-key.el"))
+  :defer 0
   :config
-  (which-key-mode))
+  (which-key-mode)
+  (setq which-key-idle-delay 1))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; avy: always fast jump to char inside the current view buffer
@@ -1562,24 +1559,24 @@
   :hook (lisp-mode-hook . rainbow-delimiters-mode))
 
 ;; PATH variable is not svailable when started from spotlist, ref:https://www.emacswiki.org/emacs/ExecPath
-(defun set-exec-path-from-shell-PATH ()
-  "Set up Emacs' `exec-path' and PATH environment variable to match that used by the user's shell.
+;; (defun set-exec-path-from-shell-PATH ()
+;;   "Set up Emacs' `exec-path' and PATH environment variable to match that used by the user's shell.
 
-This is particularly useful under Mac OSX, where GUI apps are not started from a shell."
-  (interactive)
-  (let ((path-from-shell (replace-regexp-in-string "[ \t\n]*$" "" (shell-command-to-string "$SHELL --login -c 'echo $PATH'"))))
-    (setenv "PATH" path-from-shell)
-    (setq exec-path (split-string path-from-shell path-separator))))
+;; This is particularly useful under Mac OSX, where GUI apps are not started from a shell."
+;;   (interactive)
+;;   (let ((path-from-shell (replace-regexp-in-string "[ \t\n]*$" "" (shell-command-to-string "$SHELL --login -c 'echo $PATH'"))))
+;;     (setenv "PATH" path-from-shell)
+;;     (setq exec-path (split-string path-from-shell path-separator))))
 
-(set-exec-path-from-shell-PATH)
+;; (set-exec-path-from-shell-PATH)
 
 
-(let ((path (shell-command-to-string ". ~/.zshrc;echo -n $PATH")))
-  (setenv "PATH" path)
-  (setq exec-path
-        (append
-         (split-string-and-unquote path ":")
-         exec-path)))
+;; (let ((path (shell-command-to-string ". ~/.zshrc;echo -n $PATH")))
+;;   (setenv "PATH" path)
+;;   (setq exec-path
+;;         (append
+;;          (split-string-and-unquote path ":")
+;;          exec-path)))
 
 ;;; Install epdfinfo via 'brew install pdf-tools --HEAD' and then install the
 ;;; pdf-tools elisp via the use-package below. To upgrade the epdfinfo
@@ -1699,6 +1696,16 @@ This is particularly useful under Mac OSX, where GUI apps are not started from a
   (global-set-key (kbd "C-x C-g") 'deft-find-file)
   )
 
+;; Measure startup time:
+;; Reference :
+(defun efs/display-startup-time ()
+  (message "Emacs loaded in %s with %d garbage collections."
+           (format "%.2f seconds"
+                   (float-time
+                     (time-subtract after-init-time before-init-time)))
+           gcs-done))
+
+(add-hook 'emacs-startup-hook #'efs/display-startup-time)
 ;;Ediff configuration
 (setq ediff-split-window-function 'split-window-horizontally)
 (provide '.emacs)
@@ -1734,8 +1741,6 @@ This is particularly useful under Mac OSX, where GUI apps are not started from a
  '(hl-paren-colors '("#2aa198" "#b58900" "#268bd2" "#6c71c4" "#859900"))
  '(line-number-mode nil)
  '(magit-diff-use-overlays nil)
- '(org-agenda-files
-   '("~/local_drive/personal/gtd/gtd.org" "~/local_drive/personal/gtd/inbox.org" "~/local_drive/personal/gtd/tickler.org"))
  '(package-selected-packages
    '(rfc-mode graphviz-dot-mode pdf-tools paredit sly vterm elisp-lint package-lint buttercup lsp-pyright hide-mode-line dap-mode treemacs org-roam rtags eglot click-mode cmake-font-lock lsp-java lsp-clangd hierarchy call-graph transpose-frame window-purpose lsp-ui company-lsp lsp-mode org-mime solarized-theme doom-themes monokai-theme zenburn-theme 0blayout powerline zzz-to-char yasnippet-snippets yapfify yaml-mode writegood-mode window-numbering which-key wgrep web-mode vlf use-package string-inflection sourcerer-theme realgud rainbow-delimiters prognth origami multiple-cursors modern-cpp-font-lock markdown-mode magit-gerrit json-mode hungry-delete google-c-style git-gutter flyspell-correct-ivy flycheck-pyflakes elpy edit-server cuda-mode counsel-etags company-jedi cmake-mode clang-format beacon autopair auto-package-update auctex))
  '(pos-tip-background-color "#FFFACE")

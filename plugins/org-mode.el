@@ -376,3 +376,17 @@
                 ("CANCELLED" :foreground "forest green" :weight bold)
                 ("MEETING" :foreground "forest green" :weight bold)
                 )))
+
+;; Enabling org-babel support for more languages
+ (org-babel-do-load-languages
+        'org-babel-load-languages
+        '((shell      . t)
+          (js         . t)
+          (emacs-lisp . t)
+          (perl       . t)
+          (clojure    . t)
+          (python     . t)
+          (ruby       . t)
+          (dot        . t)
+          (css        . t)
+          ))
