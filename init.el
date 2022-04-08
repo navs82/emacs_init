@@ -892,6 +892,7 @@
 (use-package company-rtags
 ;;  :require company rtags
   :ensure t
+  :after rtags
   :config
   ;(setq rtags-autostart-diagnostics t)
   ;(rtags-diagnostics)
@@ -908,6 +909,7 @@
 ;; Ivy to view the result of rtags
 (use-package ivy-rtags
   :ensure t
+  :after rtags
   :config
   (setq rtags-display-result-backend 'ivy)
 )
