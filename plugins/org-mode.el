@@ -131,8 +131,6 @@
 
 ;; org-agenda changes
 (use-package org-super-agenda
-;;              :ensure t
-  :hook org-mode
   :config
   (add-to-list 'org-agenda-custom-commands
                '("n" "Next View"

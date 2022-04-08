@@ -60,6 +60,7 @@
 ;; Built-in Python utilities
 (use-package python
   :ensure t
+  :defer t
   :config
   ;; Remove guess indent python message
   (setq python-indent-guess-indent-offset-verbose nil)
@@ -80,6 +81,7 @@
 ;; Hide the modeline for inferior python processes
 (use-package inferior-python-mode
   :ensure nil
+  :defer t
   :hook (inferior-python-mode . hide-mode-line-mode))
 
 ;; Required to hide the modeline
@@ -131,6 +133,7 @@
 ;;https://stackoverflow.com/questions/55175916/emacs-and-conda-workaround
 (use-package conda
   :ensure t
+  :defer t
   :init
   (setq conda-anaconda-home (expand-file-name "~/anaconda3"))
   (setq conda-env-home-directory (expand-file-name "~/anaconda3")))

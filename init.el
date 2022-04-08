@@ -398,19 +398,13 @@
 ;; in the root directory of your project.
 (use-package counsel-etags
   :ensure t
-  :init
-  (eval-when-compile
-    ;; Silence missing function warnings
-    (declare-function counsel-etags-virtual-update-tags "counsel-etags.el")
-    (declare-function counsel-etags-guess-program "counsel-etags.el")
-    (declare-function counsel-etags-locate-tags-file "counsel-etags.el"))
   :bind (
        ;;("M-." . counsel-etags-find-tag-at-point)
          ("M-t" . counsel-etags-grep-symbol-at-point)
          ("M-s" . counsel-etags-find-tag))
   :config
   ;; Ignore files above 800kb
-  (setq counsel-etags-max-file-size 800)
+  ;;(setq counsel-etags-max-file-size 800)
   ;; Ignore build directories for tagging
   (add-to-list 'counsel-etags-ignore-directories '"build*")
   (add-to-list 'counsel-etags-ignore-directories '".vscode")
@@ -492,6 +486,7 @@
 ;; Allows switching between buffers using meta-(# key)
 (use-package window-numbering
   :ensure t
+  :defer
   :config
   (eval-when-compile
     ;; Silence missing function warnings
@@ -521,6 +516,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (use-package edit-server
   :ensure t
+  :defer 10
   :config
   (progn
     (eval-when-compile
@@ -575,19 +571,19 @@
 ;; For more see URL `https://github.com/Andersbakken/rtags/issues/1318'.
 
 (use-package rtags
-    :ensure nil
-    :init
-    (add-to-list 'display-buffer-alist
-               '("*RTags*"
-                 (display-buffer-below-selected)
-                 (inhibit-same-window . t)
-                 (window-height . 30)))
-    (add-to-list 'display-buffer-alist
-                 '("*rdm*"
-                   (display-buffer-in-side-window)
-                   (side . top)
-                   (inhibit-same-window . t)
-                   (window-height . 5)))
+    :ensure t
+    ;; :init
+    ;; (add-to-list 'display-buffer-alist
+    ;;            '("*RTags*"
+    ;;              (display-buffer-below-selected)
+    ;;              (inhibit-same-window . t)
+    ;;              (window-height . 30)))
+    ;; (add-to-list 'display-buffer-alist
+    ;;              '("*rdm*"
+    ;;                (display-buffer-in-side-window)
+    ;;                (side . top)
+    ;;                (inhibit-same-window . t)
+    ;;                (window-height . 5)))
     :bind (
            ;;("C-x C-f" . rtags-find-file)
            ;;("C-c r 8" . rtags-find-symbol-current-file)
@@ -636,6 +632,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (use-package cmake-ide
     :ensure t
+    :disabled
     :init
     (eval-and-compile
       ;; Silence missing function warnings
@@ -661,11 +658,9 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (use-package rainbow-delimiters
   :ensure t
-  :init
-  (eval-when-compile
-    ;; Silence missing function warnings
-    (declare-function rainbow-delimiters-mode "rainbow-delimiters.el"))
-  (add-hook 'prog-mode-hook #'rainbow-delimiters-mode))
+  :defer 10
+  )
+
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Beacon-mode: flash the cursor when switching buffers or scrolling
@@ -673,10 +668,6 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (use-package beacon
   :ensure t
-  :init
-  (eval-when-compile
-    ;; Silence missing function warnings
-    (declare-function beacon-mode "beacon.el"))
   :config
   (beacon-mode t))
 
@@ -685,7 +676,7 @@
 ;;            suggestions in a popup buffer
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (use-package which-key
-  :defer 0
+  :defer 10
   :config
   (which-key-mode)
   (setq which-key-idle-delay 1))
@@ -698,7 +689,8 @@
   :bind (("M-c" . avy-goto-char)
          ("M-s" . avy-goto-word-1))
   ;; Set keys for Dvorak mode instead of qwerty
-  :init (setq avy-keys '(?a ?o ?e ?u ?i ?d ?h ?t ?n ?s
+  :config
+  (setq avy-keys '(?a ?o ?e ?u ?i ?d ?h ?t ?n ?s
                             ?A ?O ?E ?U ?I ?D ?H ?T ?N ?S
                             ?p ?y ?f ?g ?c ?r ?l
                             ?P ?Y ?F ?G ?C ?R ?L)))
