@@ -586,8 +586,8 @@
     ;;                (window-height . 5)))
     :bind (
            ;;("C-x C-f" . rtags-find-file)
-           ;;("C-c r 8" . rtags-find-symbol-current-file)
-           ;;("C-c r 7" . rtags-find-symbol-current-dir)
+           ("C-c r 8" . rtags-find-symbol-current-file)
+           ("C-c r 7" . rtags-find-symbol-current-dir)
            ;;("M-." . rtags-find-symbol-at-point)
            ;;("M-," . rtags-find-references-at-point)
            ;;("C-c [" . rtags-location-stack-back)
@@ -709,6 +709,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (use-package realgud
   :ensure t
+  :disabled
   :init
   (setenv "TERM" "dumb")
   :config
@@ -744,7 +745,7 @@
 ;; clang-format -style=google -dump-config > .clang-format
 (use-package clang-format
   :ensure t
-;  :bind (("C-c C-f" . clang-format-region))
+  :bind (("C-c C-f" . clang-format-region))
   )
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -752,11 +753,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (use-package modern-cpp-font-lock
   :ensure t
-  :init
-  (eval-when-compile
-      ;; Silence missing function warnings
-    (declare-function modern-c++-font-lock-global-mode
-                      "modern-cpp-font-lock.el"))
+  :defer 10
   :config
   (modern-c++-font-lock-global-mode t)
   )
@@ -766,9 +763,9 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (use-package cc-mode
   :ensure t
-  :init
-  (add-to-list 'auto-mode-alist '("\\.tpp\\'" . c++-mode))
+  :defer 10
   :config
+  (add-to-list 'auto-mode-alist '("\\.tpp\\'" . c++-mode))
   (define-key c++-mode-map (kbd "C-c C-c") 'compile)
   (define-key c++-mode-map (kbd "C-c C-k") 'kill-compilation)
   (setq compile-command my:compile-command)
