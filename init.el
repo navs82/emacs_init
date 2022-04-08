@@ -1639,6 +1639,7 @@
 
 (use-package lsp-grammarly
   :ensure t
+  :hook (text-mode org-mode)
   ;;:hook (text-mode . (lambda ()
   ;;                     (require 'lsp-grammarly)
   ;;                     (lsp)))

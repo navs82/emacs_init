@@ -131,92 +131,93 @@
 
 ;; org-agenda changes
 (use-package org-super-agenda
-              :ensure t
-              :config
-              (add-to-list 'org-agenda-custom-commands
-                           '("n" "Next View"
-                             ((agenda "" ((org-agenda-span 'day)
-                                          (org-super-agenda-groups
-                                           '((:name "Today"
-                                                    :time-grid t
-                                                    :todo "TODAY"
-                                                    :scheduled today
-                                                    :order 0)
-                                             (:habit t)
-                                             (:name "Due Today"
-                                                    :deadline today
-                                                    :order 2)
-                                             (:name "Due Soon"
-                                                    :deadline future
-                                                    :order 8)
-                                             (:name "Overdue"
-                                                    :deadline past
-                                                    :order 7)
-                                             ))))
-                              (todo "" ((org-agenda-overriding-header "")
-                                        (org-super-agenda-groups
-                                         '((:discard (:not (:tag ("urgent"))))
-                                           (:name "Urgent"
-                                                  :file-path "/OrgNotes/gtd"
-                                                  :tag ("urgent")
-                                                  :order 0
-                                                  )
-                                           (:auto-category t
-                                                           :order 9)
-                                           ))))
+;;              :ensure t
+  :hook org-mode
+  :config
+  (add-to-list 'org-agenda-custom-commands
+               '("n" "Next View"
+                 ((agenda "" ((org-agenda-span 'day)
+                              (org-super-agenda-groups
+                               '((:name "Today"
+                                        :time-grid t
+                                        :todo "TODAY"
+                                        :scheduled today
+                                        :order 0)
+                                 (:habit t)
+                                 (:name "Due Today"
+                                        :deadline today
+                                        :order 2)
+                                 (:name "Due Soon"
+                                        :deadline future
+                                        :order 8)
+                                 (:name "Overdue"
+                                        :deadline past
+                                        :order 7)
+                                 ))))
+                  (todo "" ((org-agenda-overriding-header "")
+                            (org-super-agenda-groups
+                             '((:discard (:not (:tag ("urgent"))))
+                               (:name "Urgent"
+                                      :file-path "/OrgNotes/gtd"
+                                      :tag ("urgent")
+                                      :order 0
+                                      )
+                               (:auto-category t
+                                               :order 9)
+                               ))))
 
-                              (todo "" ((org-agenda-overriding-header "")
-                                        (org-super-agenda-groups
-                                         '((:discard (:not (:tag "important")))
-                                           (:name "Important"
-                                                  :file-path "/OrgNotes/gtd"
-                                                  :tag ("important")
-                                                  :order 0
-                                                  )
-                                           (:auto-category t
-                                                           :order 9)
-                                           ))))
+                  (todo "" ((org-agenda-overriding-header "")
+                            (org-super-agenda-groups
+                             '((:discard (:not (:tag "important")))
+                               (:name "Important"
+                                      :file-path "/OrgNotes/gtd"
+                                      :tag ("important")
+                                      :order 0
+                                      )
+                               (:auto-category t
+                                               :order 9)
+                               ))))
 
-                              (todo "" ((org-agenda-overriding-header "")
-                                        (org-super-agenda-groups
-                                         '((:discard (:not (:todo ("WAITING" "NEXT"))))
-                                           (:name "Finish these Task"
-                                                  :file-path "/OrgNotes/gtd"
-                                                  :tag ("important")
-                                                  :order 0
-                                                  )
-                                           (:auto-category t
-                                                           :order 9)
-                                           ))))
+                  (todo "" ((org-agenda-overriding-header "")
+                            (org-super-agenda-groups
+                             '((:discard (:not (:todo ("WAITING" "NEXT"))))
+                               (:name "Finish these Task"
+                                      :file-path "/OrgNotes/gtd"
+                                      :tag ("important")
+                                      :order 0
+                                      )
+                               (:auto-category t
+                                               :order 9)
+                               ))))
 
-                              (todo "" ((org-agenda-overriding-header "")
-                                        (org-super-agenda-groups
-                                         '( (:discard (:not (:priority ("A" "B"))))
-                                           (:name "Priority"
-                                                  :file-path "/OrgNotes/gtd"
-                                                  :priority ("A" "B")
-                                                  :order 0
-                                                  )
-                                           (:auto-category t
-                                                           :order 9)
-                                           )))))))
+                  (todo "" ((org-agenda-overriding-header "")
+                            (org-super-agenda-groups
+                             '( (:discard (:not (:priority ("A" "B"))))
+                                (:name "Priority"
+                                       :file-path "/OrgNotes/gtd"
+                                       :priority ("A" "B")
+                                       :order 0
+                                       )
+                                (:auto-category t
+                                                :order 9)
+                                )))))))
               (org-super-agenda-mode)
               (org-agenda nil "a"))
 
-    ;;(setq org-agenda-prefix-format
-    ;;      '((agenda . " %i %-12:c%?-12t% s")
-    ;;        (todo   . " %i %-12:c")
+;;(setq org-agenda-prefix-format
+;;      '((agenda . " %i %-12:c%?-12t% s")
+;;        (todo   . " %i %-12:c")
     ;;        (tags   . " %i %-12:c")
-    ;;        (search . " %i %-12:c")))
+;;        (search . " %i %-12:c")))
 
-    ;; picked from [[https://zzamboni.org/post/beautifying-org-mode-in-emacs/]]
-    ;; org-mode to hide the emphasis markup (e.g. /.../ for italics, *...* for bold, etc.)
+;; picked from [[https://zzamboni.org/post/beautifying-org-mode-in-emacs/]]
+;; org-mode to hide the emphasis markup (e.g. /.../ for italics, *...* for bold, etc.)
     (setq org-hide-emphasis-markers t)
 
     ;;The org-bullets package replaces all headline markers with different Unicode bullets:
     (use-package org-bullets
       :ensure t
-      :init
+      :hook org-mode
       :config
         (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1))))
 
@@ -334,6 +335,7 @@
 ;; JIRA Integration
 (use-package org-jira
   :ensure t
+  :hook org-mode
   :config
   (unless (file-exists-p "~/local_drive/work/.org-jira")
   (make-directory "~/local_drive/work/.org-jira"))
@@ -342,6 +344,7 @@
 
 ;;Project Management
 (use-package org-ql
+  :hook org-mode
   :ensure t)
 (use-package ts
   :ensure t)
@@ -357,7 +360,7 @@
       org-startup-with-inline-images t
       org-image-actual-width '(1200))
 
-(setq org-image-actual-width (/ (display-pixel-width) 2)
+;;(setq org-image-actual-width (/ (display-pixel-width) 2)
 ;; Change the bullets
 (use-package org-superstar
       :config
