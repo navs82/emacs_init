@@ -355,8 +355,9 @@
       org-pretty-entities t
       org-hide-emphasis-markers t
       org-startup-with-inline-images t
-      org-image-actual-width '(300))
+      org-image-actual-width '(1200))
 
+(setq org-image-actual-width (/ (display-pixel-width) 2)
 ;; Change the bullets
 (use-package org-superstar
       :config
