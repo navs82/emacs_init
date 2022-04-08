@@ -1584,15 +1584,18 @@
 
 (use-package graphviz-dot-mode
   :ensure t
+  :defer 10
   :config
   (setq graphviz-dot-indent-width 4))
 
 (use-package company-graphviz-dot
+  :after graphviz-dot-mode
   )
 
 ;;; rfc reader
 (use-package rfc-mode
   :ensure t
+  :defer 10
   :config
   (setq rfc-mode-directory (expand-file-name "~/local_drive/office_work/rfc/")))
 
@@ -1613,13 +1616,14 @@
 ;;(load custom-file)
 
 (use-package tree-sitter-langs
-  :ensure t)
+  :ensure t
+  :defer 10)
 
 ;; tree-sitter
 (use-package tree-sitter
   :ensure t
+  :after tree-sitter-langs
   :config
-  (require 'tree-sitter-langs)
   (global-tree-sitter-mode)
   (add-hook 'tree-sitter-after-on-hook #'tree-sitter-hl-mode))
 
@@ -1652,7 +1656,6 @@
 ;; Ledger mode
 (use-package ledger-mode
   :ensure t
-  :init
   :config
   (setq ledger-clear-whole-transaction 1)
   :mode ("\\.dat\\'"
@@ -1674,7 +1677,6 @@
 
 (use-package deft
   :ensure t
-  :init
   :config
   (setq deft-default-extension "org")
   (add-to-list 'load-path "/path/to/deft/repository")
