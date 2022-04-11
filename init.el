@@ -486,12 +486,6 @@
 ;; Allows switching between buffers using meta-(# key)
 (use-package window-numbering
   :ensure t
-  :defer
-  :config
-  (eval-when-compile
-    ;; Silence missing function warnings
-    (declare-function window-numbering-mode "window-numbering.el"))
-  (window-numbering-mode t)
   )
 
 ;;(use-package transpose-frame
@@ -1030,12 +1024,12 @@
              ("C-c n t" . org-roam-dailies-goto-today))
       :config
       (org-roam-db-autosync-mode)
-      (setq org-roam-db-location  "/Volumes/NAS_Google_Drive/references/OrgNotes/org-roam.db")
+      ;;(setq org-roam-db-location  "/Volumes/NAS_Google_Drive/references/OrgNotes/org-roam.db")
       ;;BacklinksView (preview of) nodes that link to this node
       (setq org-roam-mode-section-functions
       (list #'org-roam-backlinks-section
             #'org-roam-reflinks-section
-            ;; #'org-roam-unlinked-references-section
+            #'org-roam-unlinked-references-section
             ))
       (setq org-roam-dailies-directory "daily/")
       ;;new daily template
@@ -1632,15 +1626,15 @@
 (use-package keytar
   :ensure t)
 
-(use-package lsp-grammarly
-  :ensure t
-  :hook (text-mode org-mode)
-  ;;:hook (text-mode . (lambda ()
-  ;;                     (require 'lsp-grammarly)
-  ;;                     (lsp)))
-  :config
-  ;;(add-hook 'org-mode-hook (lambda() (lsp)))
-  )  ; or lsp-deferred
+;; (use-package lsp-grammarly
+;;   :ensure t
+;;   :hook (text-mode org-mode)
+;;   ;;:hook (text-mode . (lambda ()
+;;   ;;                     (require 'lsp-grammarly)
+;;   ;;                     (lsp)))
+;;   :config
+;;   ;;(add-hook 'org-mode-hook (lambda() (lsp)))
+;;   )  ; or lsp-deferred
 
 
 ;; Default Tramp method

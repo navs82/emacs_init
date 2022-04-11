@@ -215,7 +215,6 @@
     ;;The org-bullets package replaces all headline markers with different Unicode bullets:
     (use-package org-bullets
       :ensure t
-      :hook org-mode
       :config
         (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1))))
 
@@ -333,7 +332,6 @@
 ;; JIRA Integration
 (use-package org-jira
   :ensure t
-  :hook org-mode
   :config
   (unless (file-exists-p "~/local_drive/work/.org-jira")
   (make-directory "~/local_drive/work/.org-jira"))
@@ -342,7 +340,6 @@
 
 ;;Project Management
 (use-package org-ql
-  :hook org-mode
   :ensure t)
 (use-package ts
   :ensure t)
