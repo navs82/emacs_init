@@ -24,7 +24,7 @@
     (setq org-agenda-files '("~/local_drive/personal/OrgNotes/gtd.org"
                              "~/local_drive/personal/OrgNotes/inbox.org"
                              "~/local_drive/personal/OrgNotes/tickler.org"
-                             "~/local_drive/personal/OrgNotes/personal-habits-2022.org"))
+                             "~/local_drive/personal/OrgNotes/habits.org"))
 
     (setq org-refile-targets '(("~/local_drive/personal/OrgNotes/gtd.org" :maxlevel . 3)
                                ("~/local_drive/personal/OrgNotes/someday.org" :level . 1)
@@ -131,6 +131,8 @@
 
 ;; org-agenda changes
 (use-package org-super-agenda
+  :ensure t
+  :defer 5
   :config
   (add-to-list 'org-agenda-custom-commands
                '("n" "Next View"
@@ -353,15 +355,16 @@
       org-pretty-entities t
       org-hide-emphasis-markers t
       org-startup-with-inline-images t
-      org-image-actual-width '(1200))
+      org-image-actual-width '(300))
 
-;;(setq org-image-actual-width (/ (display-pixel-width) 2)
+;;(setq org-image-actual-width (/ (display-pixel-width) 3)
 ;; Change the bullets
 (use-package org-superstar
-      :config
-      (setq org-superstar-special-todo-items t)
-      (add-hook 'org-mode-hook (lambda ()
-                                 (org-superstar-mode 1))))
+  :ensure t
+  :config
+;;  ((save-excursion )org-superstar-special-todo-items t)
+  (add-hook 'org-mode-hook (lambda ()
+                             (org-superstar-mode 1))))
 ;; Increase line spacing for better readability
 (setq-default line-spacing 5)
 

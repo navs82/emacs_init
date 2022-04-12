@@ -486,6 +486,8 @@
 ;; Allows switching between buffers using meta-(# key)
 (use-package window-numbering
   :ensure t
+  :config
+  (window-numbering-mode t)
   )
 
 ;;(use-package transpose-frame
@@ -1026,7 +1028,7 @@
       (org-roam-db-autosync-mode)
       ;;(setq org-roam-db-location  "/Volumes/NAS_Google_Drive/references/OrgNotes/org-roam.db")
       ;;BacklinksView (preview of) nodes that link to this node
-      (setq org-roam-mode-section-functions
+      (setq org-roam-mode-sections
       (list #'org-roam-backlinks-section
             #'org-roam-reflinks-section
             #'org-roam-unlinked-references-section
@@ -1628,7 +1630,6 @@
 
 ;; (use-package lsp-grammarly
 ;;   :ensure t
-;;   :hook (text-mode org-mode)
 ;;   ;;:hook (text-mode . (lambda ()
 ;;   ;;                     (require 'lsp-grammarly)
 ;;   ;;                     (lsp)))
