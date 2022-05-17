@@ -1105,10 +1105,11 @@
   '(progn
      (define-key flyspell-mouse-map [down-mouse-3] #'flyspell-correct-word)
      (define-key flyspell-mouse-map [mouse-3] #'undefined)))
+  (define-key flyspell-mode-map (kbd "C-;") #'flyspell-correct-wrapper)
   )
 
 (use-package flyspell-correct-ivy
-  :nsure t
+  :ensure t
   :after flyspell)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -1702,6 +1703,16 @@
 (add-hook 'emacs-startup-hook #'efs/display-startup-time)
 ;;Ediff configuration
 (setq ediff-split-window-function 'split-window-horizontally)
+;;Scala Support
+;; Scala Support
+(unless (package-installed-p 'scala-mode)
+  (package-install 'scala-mode))
+
+;; JSON Support
+(unless (package-installed-p 'json-mode)
+  (package-install 'json-mode))
+
+
 (provide '.emacs)
 ;;; .emacs ends here
 (custom-set-variables
