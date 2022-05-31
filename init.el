@@ -1026,7 +1026,7 @@
              ("C-c n t" . org-roam-dailies-goto-today))
       :config
       (org-roam-db-autosync-mode)
-      ;;(setq org-roam-db-location  "/Volumes/NAS_Google_Drive/references/OrgNotes/org-roam.db")
+      (setq org-roam-db-location  "/Volumes/NAS_Google_Drive/references/OrgNotes/org-roam.db")
       ;;BacklinksView (preview of) nodes that link to this node
       (setq org-roam-mode-sections
       (list #'org-roam-backlinks-section
