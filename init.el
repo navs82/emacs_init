@@ -98,7 +98,7 @@
 (add-to-list 'load-path (concat user-emacs-directory "lisp/elgantt/"))
 (add-to-list 'load-path "~/.emacs.d/private/org-roam-ui")
 ;;Load other files that is needed
-;;(load  "miscellaneous")
+(load  "miscellaneous")
 ;; Load lsp
 ;;(load "clangd")
 ;;(load "rtags")
@@ -109,7 +109,7 @@
 ;;(require 'websocket)
 ;;(require 'simple-httpd)
 ;;(load-library "org-roam-ui")
-;;(require 'elgantt)
+(require 'elgantt)
 (setq elgantt-agenda-files (concat user-emacs-directory "private/elgantt/test.org"))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Start emacs server if not already running
@@ -872,8 +872,8 @@
   (setq company-async-timeout 10)
   ;;(define-key c-mode-map [(tab)] 'company-complete)
   ;;(define-key c++-mode-map [(tab)] 'company-complete)
-  (define-key c-mode-map [(backtab)]'company-complete)
-  (define-key c++-mode-map [(backtab)]'company-complete)
+  (define-key c-mode-map [(backtab)] 'company-complete)
+  (define-key c++-mode-map [(backtab)] 'company-complete)
 
   (add-hook 'after-init-hook 'global-company-mode)
   ;; remove unused backends
@@ -1681,14 +1681,20 @@
 (use-package deft
   :ensure t
   :config
-  (setq deft-default-extension "org")
-  (add-to-list 'load-path "/path/to/deft/repository")
-  (setq deft-extensions '("txt" "tex" "org"))
-  (setq deft-directory "~/local_drive/personal/OrgNotes")
-  (setq deft-use-filename-as-title nil)
-  (setq deft-text-mode 'org-mode)
+  ;;(add-to-list 'load-path "/path/to/deft/repository")
+  ;;(setq deft-use-filename-as-title nil)
   (global-set-key (kbd "C-M-S-s-d") 'deft)
   (global-set-key (kbd "C-x C-g") 'deft-find-file)
+  ;;:custom
+  (setq deft-recursive t)
+  (setq deft-use-filter-string-for-filename t)
+  (setq deft-extensions '("txt" "tex" "org"))
+  (setq deft-directory "~/local_drive/personal/OrgNotes")
+  (setq deft-default-extension "org")
+  (setq deft-text-mode 'org-mode)
+;;  (setq deft-strip-summary-regexp ":PROPERTIES:\n\\(.+\n\\)+:END:\n")
+  :bind
+  ("C-c n d" . deft)
   )
 
 ;; Measure startup time:

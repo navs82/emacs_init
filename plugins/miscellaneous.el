@@ -102,3 +102,12 @@
   (paste-to-mark arg)
   )
 (global-set-key (kbd "C-c a")         (quote thing-copy-parenthesis-to-mark))
+
+(defun reload-all-buffers ()
+  "Reload all open buffers."
+  (interactive)
+  (dolist (buf (buffer-list))
+    (with-current-buffer buf
+      (when (and (buffer-file-name) (file-exists-p (buffer-file-name)))
+        (revert-buffer t t t)))))
+(global-set-key (kbd "<f5>") 'reload-all-buffers)
