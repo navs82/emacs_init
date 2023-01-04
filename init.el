@@ -88,7 +88,7 @@
 ;; By default Emacs triggers garbage collection at ~0.8MB which makes
 ;; startup really slow. Since most systems have at least 64MB of memory,
 ;; we increase it during initialization.
-(setq gc-cons-threshold 64000000)
+(setq gc-cons-threshold 100000000)
 (add-hook 'after-init-hook #'(lambda ()
                                ;; restore after startup
                                (setq gc-cons-threshold 800000)))
@@ -1023,7 +1023,8 @@
              ;; Dailies
              ("C-c n j" . org-roam-dailies-capture-today)
              ("C-c n y" . org-roam-dailies-goto-yesterday)
-             ("C-c n t" . org-roam-dailies-goto-today))
+             ("C-c n t" . org-roam-dailies-goto-today)
+             ("C-c n d" . org-roam-db-sync))
       :config
       (org-roam-db-autosync-mode)
       (setq org-roam-db-location  "/Volumes/NAS_Google_Drive/references/OrgNotes/org-roam.db")
