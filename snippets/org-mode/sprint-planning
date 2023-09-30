@@ -1,0 +1,15 @@
+# -*- mode: snippet -*-
+# name: sprint-planning
+# key: >>sprint-planning
+# --
+* Sprint # Plan
+** Goals:
+   - Lichun:
+   - Nick:
+   - Dinesh:
+   - Sarvesh:
+   - Daniel:
+   - Satya:
+   - Mitch:
+   - Jim:
+   - Vishal:

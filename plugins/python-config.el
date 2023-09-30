@@ -135,5 +135,5 @@
   :ensure t
   :defer t
   :init
-  (setq conda-anaconda-home (expand-file-name "~/anaconda3"))
-  (setq conda-env-home-directory (expand-file-name "~/anaconda3")))
+  (setq conda-anaconda-home (expand-file-name "~/anaconda"))
+  (setq conda-env-home-directory (expand-file-name "~/anaconda")))

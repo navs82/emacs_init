@@ -626,17 +626,17 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Setup cmake-ide
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(use-package cmake-ide
-    :ensure t
-    :disabled
-    :init
-    (eval-and-compile
+;;(use-package cmake-ide
+;;    :ensure t
+;;    :disabled
+;;   :init
+;;    (eval-and-compile
       ;; Silence missing function warnings
-      (declare-function cmake-ide-mode "cmake-ide.el")))
-(require 'cmake-ide)
-(cmake-ide-setup)
+;;      (declare-function cmake-ide-mode "cmake-ide.el")))
+;;(require 'cmake-ide)
+;;(cmake-ide-setup)
 ;; Set cmake-ide-flags-c++ to use C++11
-(setq cmake-ide-flags-c++ (append '("-std=c++11")))
+;;(setq cmake-ide-flags-c++ (append '("-std=c++11")))
 ;; We want to be able to compile with a keyboard shortcut
 ;;(global-set-key (kbd "C-c m") 'cmake-ide-compile)
 
@@ -1014,7 +1014,7 @@
       :init
       (setq org-roam-v2-ack t)
       :custom
-      (org-roam-directory "~/local_drive/personal/OrgNotes")
+      (org-roam-directory (expand-file-name  "~/local_drive/personal/OrgNotes"))
       :bind (("C-c n l" . org-roam-buffer-toggle)
              ("C-c n f" . org-roam-node-find)
              ("C-c n g" . org-roam-graph)
@@ -1027,7 +1027,7 @@
              ("C-c n d" . org-roam-db-sync))
       :config
       (org-roam-db-autosync-mode)
-      (setq org-roam-db-location  "/Volumes/NAS_Google_Drive/references/OrgNotes/org-roam.db")
+      (setq org-roam-db-location  (expand-file-name "~/local_drive/references/OrgNotes/org-roam.db"))
       ;;BacklinksView (preview of) nodes that link to this node
       (setq org-roam-mode-sections
       (list #'org-roam-backlinks-section
@@ -1698,6 +1698,10 @@
   ("C-c n d" . deft)
   )
 
+;; Device tree-mode
+(use-package dts-mode
+  :ensure t
+  )
 ;; Measure startup time:
 ;; Reference :
 (defun efs/display-startup-time ()
@@ -1718,8 +1722,24 @@
 ;; JSON Support
 (unless (package-installed-p 'json-mode)
   (package-install 'json-mode))
+;; Install straight.el
+(defvar bootstrap-version)
+(let ((bootstrap-file
+       (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
+      (bootstrap-version 6))
+  (unless (file-exists-p bootstrap-file)
+    (with-current-buffer
+	(url-retrieve-synchronously
+	 "https://raw.githubusercontent.com/radian-software/straight.el/develop/install.el"
+	 'silent 'inhibit-cookies)
+      (goto-char (point-max))
+      (eval-print-last-sexp)))
+  (load bootstrap-file nil 'nomessage))
 
-
+;; Disable package.el in favor of straight.el
+;;(setq package-enable-at-startup nil)
+;;(straight-use-package 'org-roam)
+(straight-use-package 'applescript-mode)
 (provide '.emacs)
 ;;; .emacs ends here
 (custom-set-variables
