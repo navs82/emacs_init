@@ -73,8 +73,8 @@
                      :immediate-finish t))
                   org-capture-templates))
 
-    ;; todo->not started, Next->should be picked up next, WWAITING: work is started bu not finished, DONE->Finished
-    (setq org-todo-keywords '((sequence "TODO(t)" "NEXT(n)" "WAITING(w)" "|" "DONE(d)")))
+    ;; todo->not started, Next->should be picked up next, WAITING: work is started bu not finished, SKIPPED->not finished , DONE->Finished
+    (setq org-todo-keywords '((sequence "TODO(t)" "NEXT(n)" "WAITING(w)" "|" "SKIPPED(s)" "DONE(d)")))
 
     ;; Following the GTD principle, what I usually want is to only show the first action to be done (or next action) for
     ;;           each project with the @office tag.

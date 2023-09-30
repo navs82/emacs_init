@@ -3,6 +3,7 @@
 ;; Emacs 25.1 and newer tested
 ;;; Code:
 ;;Save current opened session
+
 (require 'desktop)
 (setq desktop-path (list "~/emacs-server"))
 (desktop-save-mode 1)
@@ -100,7 +101,7 @@
 ;;Load other files that is needed
 (load  "miscellaneous")
 ;; Load lsp
-;;(load "clangd")
+(load "clangd")
 ;;(load "rtags")
 ;;Load other files that is needed
 (load  "miscellaneous")

@@ -111,3 +111,22 @@
       (when (and (buffer-file-name) (file-exists-p (buffer-file-name)))
         (revert-buffer t t t)))))
 (global-set-key (kbd "<f5>") 'reload-all-buffers)
+
+
+(defun copy-week6-table ()
+  "Copy the org-mode table named week6 to the clipboard."
+  (interactive)
+  (save-excursion
+    (goto-char (point-min))
+    (search-forward "week6")
+    (org-table-copy-region (org-table-begin) (org-table-end))
+    (message "Table 'week6' copied to clipboard.")))
+
+
+(defun org-copy-table (table-name)
+  (let ((table (org-table-find table-name)))
+    (if table
+        (progn
+          (setq org-table-clip (org-table-to-lisp table))
+          (message "Table '%s' copied to clipboard." table-name))
+      (message "Table '%s' not found." table-name))))
