@@ -1723,6 +1723,12 @@
 ;; JSON Support
 (unless (package-installed-p 'json-mode)
   (package-install 'json-mode))
+
+;; Setting  indentation for org-mode
+;; t: Adapt indentation for all lines
+;; headline-data: Adapt indentation for headline data lines
+;; nil: Do not adapt indentation at all
+(setq org-adapt-indentation t).
 ;; Install straight.el
 (defvar bootstrap-version)
 (let ((bootstrap-file
