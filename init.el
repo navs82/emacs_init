@@ -862,18 +862,29 @@
 ;;      )
 ;;  )
 
+;; Hybrid Setup: Corfu + Company (Best of both worlds)
+;; You can use Corfu for lightweight completion and Company for LSP-heavy coding:
+
+(use-package corfu
+  :ensure t
+  :init
+  (global-corfu-mode))
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Set up code completion with company
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (use-package company
   :ensure t
   :config
+  :hook (prog-mode . company-mode)
+  ;; enable completion preview mode release in emacs 30.1
+  (completion-preview-mode 1)
   ;; Zero delay when pressing tab
   (setq company-idle-delay 0.10)
   (setq company-async-timeout 10)
   ;;(define-key c-mode-map [(tab)] 'company-complete)
   ;;(define-key c++-mode-map [(tab)] 'company-complete)
-  (define-key c-mode-map [(backtab)] 'company-complete)
+  ;; (define-key c-mode-map [(backtab)] 'company-complete)
   (define-key c++-mode-map [(backtab)] 'company-complete)
 
   (add-hook 'after-init-hook 'global-company-mode)
