@@ -130,3 +130,12 @@
           (setq org-table-clip (org-table-to-lisp table))
           (message "Table '%s' copied to clipboard." table-name))
       (message "Table '%s' not found." table-name))))
+
+
+(defun my/org-archive-done-tasks ()
+  "Archive all headlines marked as DONE in the current Org file."
+  (interactive)
+  (save-excursion
+    (goto-char (point-min))
+    (while (re-search-forward "^\\*+ DONE " nil t)  ;; Find "DONE" headlines
+      (org-archive-subtree))))
