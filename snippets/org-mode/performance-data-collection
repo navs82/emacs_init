@@ -1,0 +1,10 @@
+# -*- mode: snippet -*-
+# name: performance-data-collection
+# key: performance-data-collection
+# --
+** 1. Prepare and Gather Information
+*** Jira
+*** Gerrit Review
+*** Braintrust meetings
+** 2. Compare Performance Against Expectations
+** 3. Assess Strengths and Achievements
