@@ -98,22 +98,36 @@
             ("pc" "C items" tags-todo "+PRIORITY=\"C\"")
            ))
 
+(load "team-plan")
 
-    (defun my-org-agenda-skip-all-siblings-but-first ()
-      "Skip all but the first non-done entry."
-      (let (should-skip-entry)
-        ;;(unless (and (org-current-is-todo) (org-goto-first-child)) ;; if the current item does not have any childeren then don't skip this current item
-        (unless (and (org-current-is-todo) (string= "Projects" (org-get-category)))
-          (setq should-skip-entry t))
-        (if (string= "Tasks" (org-get-category))
-          (setq should-skip-entry nil))
-        (save-excursion
-          (while( and (and (not should-skip-entry) (org-goto-sibling t)) (string= "Projects" (org-get-category)))
-            (when (org-current-is-todo)
-              (setq should-skip-entry t))))
-        (when should-skip-entry
-          (or (outline-next-heading)
-              (goto-char (point-max))))))
+(defun my/org-owner-roadmap (owner)
+  "Show all entries in ~/org/roadmap.org with :OWNER: = OWNER."
+  (interactive "sOwner: ")
+  (let ((org-agenda-files (list "~/local_drive/personal/OrgNotes/team-work-planning.org")))
+    ;; tags view with no scope string (empty) but skip non‑owners:
+    (org-tags-view nil
+                   (format "+OWNER=\"%s\"" owner))))
+
+;; Example binding:
+(global-set-key (kbd "C-c b") #'my/org-owner-roadmap)
+
+;; -*- lexical-binding: t; -*-
+
+(defun my-org-agenda-skip-all-siblings-but-first ()
+  "Skip all but the first non-done entry."
+  (let (should-skip-entry)
+    ;;(unless (and (org-current-is-todo) (org-goto-first-child)) ;; if the current item does not have any childeren then don't skip this current item
+    (unless (and (org-current-is-todo) (string= "Projects" (org-get-category)))
+      (setq should-skip-entry t))
+    (if (string= "Tasks" (org-get-category))
+        (setq should-skip-entry nil))
+    (save-excursion
+      (while( and (and (not should-skip-entry) (org-goto-sibling t)) (string= "Projects" (org-get-category)))
+        (when (org-current-is-todo)
+          (setq should-skip-entry t))))
+    (when should-skip-entry
+      (or (outline-next-heading)
+          (goto-char (point-max))))))
 
     (defun org-current-is-todo ()
       (string= "TODO" (org-get-todo-state)))
@@ -129,80 +143,81 @@
           (setq should-skip-entry t))
       )
 
-;; org-agenda changes
-(use-package org-super-agenda
-  :ensure t
-  :defer 5
-  :config
-  (add-to-list 'org-agenda-custom-commands
-               '("n" "Next View"
-                 ((agenda "" ((org-agenda-span 'day)
-                              (org-super-agenda-groups
-                               '((:name "Today"
-                                        :time-grid t
-                                        :todo "TODAY"
-                                        :scheduled today
-                                        :order 0)
-                                 (:habit t)
-                                 (:name "Due Today"
-                                        :deadline today
-                                        :order 2)
-                                 (:name "Due Soon"
-                                        :deadline future
-                                        :order 8)
-                                 (:name "Overdue"
-                                        :deadline past
-                                        :order 7)
-                                 ))))
-                  (todo "" ((org-agenda-overriding-header "")
-                            (org-super-agenda-groups
-                             '((:discard (:not (:tag ("urgent"))))
-                               (:name "Urgent"
-                                      :file-path "/OrgNotes/gtd"
-                                      :tag ("urgent")
-                                      :order 0
-                                      )
-                               (:auto-category t
-                                               :order 9)
-                               ))))
 
-                  (todo "" ((org-agenda-overriding-header "")
-                            (org-super-agenda-groups
-                             '((:discard (:not (:tag "important")))
-                               (:name "Important"
-                                      :file-path "/OrgNotes/gtd"
-                                      :tag ("important")
-                                      :order 0
-                                      )
-                               (:auto-category t
-                                               :order 9)
-                               ))))
+      ;; org-agenda changes
+      (use-package org-super-agenda
+        :ensure t
+        :defer 5
+        :config
+        (add-to-list 'org-agenda-custom-commands
+                     '("n" "Next View"
+                       ((agenda "" ((org-agenda-span 'day)
+                                    (org-super-agenda-groups
+                                     '((:name "Today"
+                                              :time-grid t
+                                              :todo "TODAY"
+                                              :scheduled today
+                                              :order 0)
+                                       (:habit t)
+                                       (:name "Due Today"
+                                              :deadline today
+                                              :order 2)
+                                       (:name "Due Soon"
+                                              :deadline future
+                                              :order 8)
+                                       (:name "Overdue"
+                                              :deadline past
+                                              :order 7)
+                                       ))))
+                        (todo "" ((org-agenda-overriding-header "")
+                                  (org-super-agenda-groups
+                                   '((:discard (:not (:tag ("urgent"))))
+                                     (:name "Urgent"
+                                            :file-path "/OrgNotes/gtd"
+                                            :tag ("urgent")
+                                            :order 0
+                                            )
+                                     (:auto-category t
+                                                     :order 9)
+                                     ))))
 
-                  (todo "" ((org-agenda-overriding-header "")
-                            (org-super-agenda-groups
-                             '((:discard (:not (:todo ("WAITING" "NEXT"))))
-                               (:name "Finish these Task"
-                                      :file-path "/OrgNotes/gtd"
-                                      :tag ("important")
-                                      :order 0
-                                      )
-                               (:auto-category t
-                                               :order 9)
-                               ))))
+                        (todo "" ((org-agenda-overriding-header "")
+                                  (org-super-agenda-groups
+                                   '((:discard (:not (:tag "important")))
+                                     (:name "Important"
+                                            :file-path "/OrgNotes/gtd"
+                                            :tag ("important")
+                                            :order 0
+                                            )
+                                     (:auto-category t
+                                                     :order 9)
+                                     ))))
 
-                  (todo "" ((org-agenda-overriding-header "")
-                            (org-super-agenda-groups
-                             '( (:discard (:not (:priority ("A" "B"))))
-                                (:name "Priority"
-                                       :file-path "/OrgNotes/gtd"
-                                       :priority ("A" "B")
-                                       :order 0
-                                       )
-                                (:auto-category t
-                                                :order 9)
-                                )))))))
-              (org-super-agenda-mode)
-              (org-agenda nil "a"))
+                        (todo "" ((org-agenda-overriding-header "")
+                                  (org-super-agenda-groups
+                                   '((:discard (:not (:todo ("WAITING" "NEXT"))))
+                                     (:name "Finish these Task"
+                                            :file-path "/OrgNotes/gtd"
+                                            :tag ("important")
+                                            :order 0
+                                            )
+                                     (:auto-category t
+                                                     :order 9)
+                                     ))))
+
+                        (todo "" ((org-agenda-overriding-header "")
+                                  (org-super-agenda-groups
+                                   '( (:discard (:not (:priority ("A" "B"))))
+                                      (:name "Priority"
+                                             :file-path "/OrgNotes/gtd"
+                                             :priority ("A" "B")
+                                             :order 0
+                                             )
+                                      (:auto-category t
+                                                      :order 9)
+                                      )))))))
+        (org-super-agenda-mode)
+        (org-agenda nil "a"))
 
 ;;(setq org-agenda-prefix-format
 ;;      '((agenda . " %i %-12:c%?-12t% s")
@@ -337,7 +352,12 @@
   :config
   (unless (file-exists-p "~/local_drive/work/.org-jira")
   (make-directory "~/local_drive/work/.org-jira"))
-  (setq jiralib-url "https://jira.ikarem.io"))
+  (setq jiralib-url "https://meraki.atlassian.net/")
+  ;; Configure your authentication:
+  ;; For basic auth:
+  (setq my-api-token "atlassian_very_secret_token")
+  (setq my-api-token (getenv "ATLASSIAN_API_TOKEN"))
+  )
 
 
 ;;Project Management
@@ -355,7 +375,7 @@
       ;;org-pretty-entities t
       org-hide-emphasis-markers t
       org-startup-with-inline-images t
-      org-image-actual-width '(300))
+      org-image-actual-width '(1100))
 
 (setq org-image-actual-width (/ (display-pixel-width) 2))
 ;; Change the bullets
@@ -392,3 +412,12 @@
           (dot        . t)
           (css        . t)
           ))
+
+
+(defun org-to-docx ()
+  "Convert current Org buffer to DOCX using Pandoc."
+  (interactive)
+  (let ((org-file (buffer-file-name))
+        (docx-file (concat (file-name-sans-extension (buffer-file-name)) ".docx")))
+    (shell-command (format "pandoc -s %s -o %s" org-file docx-file))
+    (message "Exported to %s" docx-file)))

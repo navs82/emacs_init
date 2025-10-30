@@ -139,3 +139,36 @@
     (goto-char (point-min))
     (while (re-search-forward "^\\*+ DONE " nil t)  ;; Find "DONE" headlines
       (org-archive-subtree))))
+
+(defun emacs-whisper-dictate ()
+  "Record and transcribe speech in real-time using Whisper."
+  (interactive)
+  (let ((audio-file "/tmp/whisper-audio.wav"))
+    (shell-command "sox -d -r 16000 -c 1 -b 16 -e signed-integer /tmp/whisper-audio.wav trim 0 10") ;; Record for 10 sec
+    (emacs-whisper-transcribe audio-file)))
+
+(defun emacs-whisper-transcribe (audio-file)
+  "Use Whisper to transcribe an AUDIO-FILE and insert the text in the current buffer."
+  (interactive "fSelect audio file: ")
+  (let* ((output (shell-command-to-string
+                  (format "whisper \"%s\" --language English --model base" audio-file))))
+    (insert output)))
+
+(defun emacs-whisper-dictate-and-transcribe ()
+  "Record audio and transcribe it using Whisper, inserting the text into a new buffer."
+  (interactive)
+  (let* ((audio-file "/tmp/whisper-audio.wav")
+         (transcription-buffer "*Whisper Transcription*"))
+    ;; Step 1: Record audio (10 seconds)
+    (message "Recording audio for 10 seconds...")
+    (shell-command (format "sox -d -r 16000 -c 1 -b 16 -e signed-integer %s trim 0 10" audio-file))
+
+    ;; Step 2: Transcribe using Whisper
+    (message "Transcribing audio...")
+    (let ((output (shell-command-to-string
+                   (format "whisper \"%s\" --language English --model base" audio-file))))
+      ;; Step 3: Create/Open buffer and insert transcription
+      (with-current-buffer (get-buffer-create transcription-buffer)
+        (erase-buffer)
+        (insert output)
+        (switch-to-buffer-other-window transcription-buffer)))))

@@ -6,7 +6,9 @@
   :config
   :commands lsp
   :init
-;;  (lsp-register-client clangd)
+  :hook ((c-mode c++-mode c-ts-mode c++-ts-mode) . lsp)
+  :custom
+  ;;  (lsp-register-client clangd)
   (add-hook 'c++-mode-hook #'lsp)
  ;; (add-hook 'python-mode-hook #'lsp)
  ;; (add-hook 'rust-mode-hook #'lsp)

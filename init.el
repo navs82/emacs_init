@@ -46,11 +46,7 @@
 (require 'epa-file)
 (custom-set-variables '(epg-gpg-program  "/opt/homebrew/bin/gpg"))
 (epa-file-enable)
-
-(require 'org-crypt)
-(org-crypt-use-before-save-magic)
-(setq org-tags-exclude-from-inheritance (quote ("crypt")))
-(setq org-crypt-key nil)
+(setq auth-sources '("~/.authinfo.gpg"))
 
 (require 'org-crypt)
 (org-crypt-use-before-save-magic)
@@ -123,11 +119,11 @@
 (add-to-list 'load-path "~/.emacs.d/private/org-roam-ui")
 ;;Load other files that is needed
 (load  "miscellaneous")
+(load "llm")
 ;; Load lsp
 (load "clangd")
 ;;(load "rtags")
 ;;Load other files that is needed
-(load  "miscellaneous")
 (load "org-mode")
 (load "python-config")
 ;;(require 'websocket)
@@ -241,7 +237,8 @@
 
 ;;
 ;;USING PGP
-(setq epg-gpg-program "gpg2")
+;; Note: epg-gpg-program is already set above to "/opt/homebrew/bin/gpg"
+;; (setq epg-gpg-program "gpg2")
 ;; Setup use-package
 (eval-when-compile
   (require 'use-package))
@@ -301,6 +298,17 @@
 (use-package s
   :ensure t)
 
+(use-package exec-path-from-shell
+  :ensure t
+  :config (exec-path-from-shell-initialize))
+
+
+(defun my/gptel-ask-about-error ()
+  (interactive)
+  (let ((msg (or (thing-at-point 'line t) "Explain this.")))
+    (gptel-prompt msg)))
+(global-set-key (kbd "C-c C-g e") #'my/gptel-ask-about-error)
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Automatically compile and save ~/.emacs.el
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -321,6 +329,8 @@
               interactive-only)))
     (byte-compile-file (expand-file-name file)))
   )
+(use-package ein
+  :ensure t)
 
 (add-hook
  'after-save-hook
@@ -354,39 +364,101 @@
           (lambda () (message "I will update packages now")))
   )
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Ivy config
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(use-package ivy
-  :ensure t
-  :commands (ivy-mode)
-  :config
-  (require 'ivy)
-  (ivy-mode t)
-  (setq ivy-use-virtual-buffers t)
-  (setq enable-recursive-minibuffers t)
-  (setq ivy-wrap nil)
-  (add-hook 'org-mode-hook #'flyspell-mode)
-;;            (lambda() (ivy-wrap -1 message "org-mode-hook-called")))
-  (add-hook 'c++-mode-hook (lambda()(ivy-wrap t)))
-  (add-hook 'c++-mode-hook (lambda () (set-fill-column 120)))
-  (global-set-key (kbd "C-c C-r") 'ivy-resume)
-  ;; Show #/total when scrolling buffers
-  (setq ivy-count-format "%d/%d ")
-  (setq projectile-completion-system 'ivy)
-  (setq ivy-display-style 'fancy)
-  )
+;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; ;; Ivy config
+;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; (use-package ivy
+;;   :ensure t
+;;   :commands (ivy-mode)
+;;   :config
+;;   (require 'ivy)
+;;   (ivy-mode t)
+;;   (setq ivy-use-virtual-buffers t)
+;;   (setq enable-recursive-minibuffers t)
+;;   (setq ivy-wrap nil)
+;;   (add-hook 'org-mode-hook #'flyspell-mode)
+;; ;;            (lambda() (ivy-wrap -1 message "org-mode-hook-called")))
+;;   (add-hook 'c++-mode-hook (lambda()(ivy-wrap t)))
+;;   (add-hook 'c++-mode-hook (lambda () (set-fill-column 120)))
+;;   (global-set-key (kbd "C-c C-r") 'ivy-resume)
+;;   ;; Show #/total when scrolling buffers
+;;   (setq ivy-count-format "%d/%d ")
+;;   (setq projectile-completion-system 'ivy)
+;;   (setq ivy-display-style 'fancy)
+;;   )
 
-(use-package swiper
-  :ensure t
-  :bind (("C-s" . swiper)
-         ("C-r" . swiper))
-  )
+;; (use-package swiper
+;;   :ensure t
+;;   :bind (("C-s" . swiper)
+;;          ("C-r" . swiper))
+;;   )
 
 ;;       ("C-x C-f" . counsel-find-file)
+
+
+;;# core completion UI
+
+(use-package vertico
+  :ensure t
+  :init
+  (vertico-mode)
+  ;; Optionalcycle through candidates instead of stopping at edges
+  (setq vertico-cycle t))
+
+(global-set-key (kbd "C-s") #'consult-line)
+(global-set-key (kbd "C-r") #'consult-line)
+
+;;Smart Matching
+
+(use-package orderless
+  :ensure t
+  :custom
+  (completion-styles '(orderless)) ;; fuzzy, space-separated matching
+  (completion-category-defaults nil)
+  (completion-category-overrides '((file (styles partial-completion)))))  ;; keep partial completion for file paths
+
+
+;; rich Annotation
+
+(use-package marginalia
+  :ensure t
+  :init
+  (marginalia-mode)
+  ;; cycle annotation styles with M-A
+  (setq marginalia-align 'right))
+
+
+
+;; (use-package consult
+;;   :ensure t
+;;   :bind (
+;;          ;; Common replacements
+;;          ("C-s"     . consult-line)
+;;          ("C-x b"   . consult-buffer)
+;;          ("C-x p b" . consult-project-buffer)
+;;          ("M-y"     . consult-yank-pop)
+;;          ("M-g g"   . consult-goto-line)
+;;          ("M-g i"   . consult-imenu)
+;;          ;; Searching project
+;;          ("C-c s"   . consult-ripgrep))
+;;   :custom
+;;   (consult-narrow-key "<")   ;; press < to narrow candidate types
+;;   (consult-preview-key "M-."))
+
+
 (use-package counsel
   :ensure t
-  :bind (("M-x" . counsel-M-x)
+  :bind (
+         ;; Common replacements
+         ("C-s"     . consult-line)
+         ("C-x b"   . consult-buffer)
+         ("C-x p b" . consult-project-buffer)
+         ("M-y"     . consult-yank-pop)
+         ("M-g g"   . consult-goto-line)
+         ("M-g i"   . consult-imenu)
+         ;; Searching project
+         ("C-c s"   . consult-ripgrep)
+         ("M-x" . counsel-M-x)
          ("<f1> f" . counsel-describe-function)
          ("<f1> v" . counsel-describe-variable)
          ("<f1> l" . counsel-find-library)
@@ -402,6 +474,10 @@
          ("C-r" . counsel-minibuffer-add)
          ("C-c i" . counsel-imenu) ;; don't know how to get here, and what is map minibuffer-local-map for
          )
+  :custom
+  (consult-preview-key 'any)
+  (consult-narrow-key "<")   ;; press < to narrow candidate types
+  (consult-preview-key "M-.")
   :config
   (if (executable-find "rg")
       ;; use ripgrep instead of grep because it's way faster
@@ -423,7 +499,7 @@
 (use-package counsel-etags
   :ensure t
   :bind (
-       ;;("M-." . counsel-etags-find-tag-at-point)
+         ;;("M-." . counsel-etags-find-tag-at-point)
          ("M-t" . counsel-etags-grep-symbol-at-point)
          ("M-s" . counsel-etags-find-tag))
   :config
@@ -765,8 +841,9 @@
 ;; clang-format -style=google -dump-config > .clang-format
 (use-package clang-format
   :ensure t
-  :bind (("C-c C-f" . clang-format-region))
-  )
+  :bind (:map c++-mode-map
+              ("C-c f" . clang-format-buffer)
+              ("C-c r" . clang-format-region)))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Modern C++ code highlighting
@@ -785,7 +862,10 @@
   :ensure t
   :defer 10
   :config
-  (add-to-list 'auto-mode-alist '("\\.tpp\\'" . c++-mode))
+  (add-to-list 'auto-mode-alist '("\\.cpp\\'" . c++-mode))
+  (add-to-list 'auto-mode-alist '("\\.cc\\'" . c++-mode))
+  ;; if tree-sitter available:
+  (add-to-list 'major-mode-remap-alist '(c++-mode . c++-ts-mode))
   (define-key c++-mode-map (kbd "C-c C-c") 'compile)
   (define-key c++-mode-map (kbd "C-c C-k") 'kill-compilation)
   (setq compile-command my:compile-command)
@@ -992,6 +1072,7 @@
 (use-package irony-eldoc
   :ensure t
   :after irony
+  :config
   (add-hook 'irony-mode-hook 'irony-eldoc)
 )
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -1101,10 +1182,40 @@
          ("\\.erb\\'" . web-mode)
          ("\\.mustache\\'" . web-mode)
          ("\\.djhtml\\'" . web-mode)
-         ("\\.html?\\'" . web-mode))
+         ("\\.html?\\'" . web-mode)
+         ("\\.tsx\\'" . web-mode)
+         ("\\.jsx\\'" . web-mode))
   )
 
+(use-package typescript-mode
+  :ensure t
+  :mode "\\.ts\\'")
 
+(setq web-mode-content-types-alist
+      '(("jsx" . "\\.js[x]?\\'")
+        ("tsx" . "\\.ts[x]?\\'")))
+
+(use-package lsp-mode
+  :ensure t
+  :hook ((web-mode . lsp)
+         (typescript-mode . lsp))
+  :commands lsp)
+
+;; optional UI
+(use-package lsp-ui
+  :ensure t
+  :commands lsp-ui-mode)
+
+
+(use-package mermaid-mode :ensure t)
+
+(use-package ob-mermaid
+  :ensure t
+  :after org
+  :config
+  (setq ob-mermaid-cli-path (executable-find "mmdc"))
+  (org-babel-do-load-languages 'org-babel-load-languages
+                               '((mermaid . t))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Load hungry Delete, caus we're lazy
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -1671,6 +1782,12 @@
   (global-tree-sitter-mode)
   (add-hook 'tree-sitter-after-on-hook #'tree-sitter-hl-mode))
 
+(use-package treesit-auto
+  :ensure t
+  :config
+  (setq treesit-auto-install 'prompt) ;; or 't to install without asking
+  (global-treesit-auto-mode))
+
 (use-package keytar
   :ensure t)
 
@@ -1689,6 +1806,18 @@
 ;;  : ensure t
 ;;  :config
 ;; (setq tramp-default-method "ssh"))
+
+(use-package whisper
+  :ensure t
+  :custom
+  (whisper-python "/Users/YOU/.venvs/whisper/bin/python")
+  (whisper-engine 'faster-whisper)
+  (whisper-recording-method 'ffmpeg)  ;; ffmpeg works well on mac
+  (whisper-model "small")             ;; try small/medium/large-v3
+  (whisper-language "en")
+  :bind (("C-c w r" . whisper-run)          ;; record & transcribe
+         ("C-c w f" . whisper-file)         ;; transcribe a file
+         ("C-c w d" . whisper-dictate-toggle))) ;; push-to-talk dictation
 
 ;;https://www.gnu.org/software/emacs/manual/html_node/emacs/Auto-Revert.html
 (global-auto-revert-mode t)
